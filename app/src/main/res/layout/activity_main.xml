@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    >
+
+    <TextView
+        android:id="@+id/account_balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="29dp" />
+
+    <Button
+        android:id="@+id/get_balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="get_balance"
+        android:text="Get Balance"
+        android:layout_below="@+id/account_balance"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="46dp" />
+
+    <Button
+        android:id="@+id/transfer_wei"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Transfer 300 Wei"
+        android:layout_below="@+id/get_balance"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="99dp" />
+
+    <Button
+        android:id="@+id/btn_new_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/account_balance"
+        android:layout_below="@+id/transfer_wei"
+        android:layout_marginTop="61dp"
+        android:onClick="new_account"
+        android:text="New Account" />
+
+</RelativeLayout>
