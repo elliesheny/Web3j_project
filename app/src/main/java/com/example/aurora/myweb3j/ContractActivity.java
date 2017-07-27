@@ -24,9 +24,8 @@ import org.web3j.utils.Numeric;
 
 import java.math.BigInteger;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
-import static com.example.aurora.myweb3j.MainActivity.accounts;
+import static com.example.aurora.myweb3j.MainedActivity.accounts;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNull;
@@ -68,11 +67,11 @@ public class ContractActivity extends AppCompatActivity {
         System.out.println("// Deploy contract");
 
         contract = ManageOrder
-                .load(Web3jConstants.CONTRACT_ADDRESS, MainActivity.web3j, Alice.CREDENTIALS, Web3jConstants.GAS_PRICE, Web3jConstants.GAS_LIMIT_ETHER_TX.multiply(BigInteger.valueOf(2)));
+                .load(Web3jConstants.CONTRACT_ADDRESS, MainedActivity.web3j, Alice.CREDENTIALS, Web3jConstants.GAS_PRICE, Web3jConstants.GAS_LIMIT_ETHER_TX.multiply(BigInteger.valueOf(2)));
 
         String contractAddress = contract.getContractAddress();
         System.out.println("Contract address: " + contractAddress);
-        //System.out.println("Contract address balance (initial): " + Web3jUtils.getBalanceWei(MainActivity.web3j, contractAddress));
+        //System.out.println("Contract address balance (initial): " + Web3jUtils.getBalanceWei(MainedActivity.web3j, contractAddress));
         return contract;
     }
 
@@ -97,14 +96,14 @@ public class ContractActivity extends AppCompatActivity {
 //        Transaction transaction = Transaction.createFunctionCallTransaction(
 //                NewAccountActivity.getCoinbase(),nonce, Web3jConstants.GAS_PRICE, Web3jConstants.GAS_LIMIT_ETHER_TX.multiply(BigInteger.valueOf(2)), Web3jConstants.CONTRACT_ADDRESS, BigInteger.ONE, encodedFunction);
 //
-//        EthSendTransaction transactionResponse = MainActivity.web3j.ethSendTransaction(transaction).sendAsync().get();
+//        EthSendTransaction transactionResponse = MainedActivity.web3j.ethSendTransaction(transaction).sendAsync().get();
         try {
             testCreateSignAndSendTransaction();
         } catch (Exception e) {
             e.printStackTrace();
         }
         //Your code goes here
-        TransactionReceipt transferreceipt = contract.newOrder(new Address(accounts[0]),new Uint256(250), new Utf8String("111100000000000000000000000000000000000000000000000000000000000000001111")).get();
+        TransactionReceipt transferreceipt = contract.newOrder(new Uint256(1),new Uint256(250), new Utf8String("111100000000000000000000000000000000000000000000000000000000000000001111")).get();
         System.out.println("Transfer: " + transferreceipt.getTransactionHash());
 
 
@@ -128,8 +127,8 @@ public class ContractActivity extends AppCompatActivity {
 
     }
     public void contract_list(View view) throws Exception {
-        Uint256 result = contract.listedOrder().get();
-        System.out.println("Recent Order No.: " +result.getValue());
+        //Uint256 result = contract.listedOrder().get();
+        //System.out.println("Recent Order No.: " +result.getValue());
     }
     /**
      * Ether transfer tests using methods.
@@ -157,7 +156,7 @@ public class ContractActivity extends AppCompatActivity {
         String txSigned = Numeric.toHexString(txSignedBytes);
 
         // send the signed transaction to the ethereum client
-        EthSendTransaction ethSendTx = MainActivity.web3j
+        EthSendTransaction ethSendTx = MainedActivity.web3j
                 .ethSendRawTransaction(txSigned)
                 .sendAsync()
                 .get();

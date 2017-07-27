@@ -118,7 +118,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         String contractAddress = contract.getContractAddress();
         System.out.println("Contract address: " + contractAddress);
-        //System.out.println("Contract address balance (initial): " + Web3jUtils.getBalanceWei(MainActivity.web3j, contractAddress));
+        //System.out.println("Contract address balance (initial): " + Web3jUtils.getBalanceWei(MainedActivity.web3j, contractAddress));
         return contract;
     }
     public boolean fileExistance(String fname){

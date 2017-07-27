@@ -18,7 +18,6 @@ import org.web3j.protocol.core.methods.request.Transaction;
 import org.web3j.protocol.core.methods.response.EthAccounts;
 import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
-import org.web3j.utils.Convert;
 import org.web3j.utils.Numeric;
 
 import java.math.BigInteger;
@@ -28,11 +27,10 @@ import java.security.NoSuchProviderException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import com.example.aurora.myweb3j.MainActivity;
 import com.example.aurora.myweb3j.util.Web3jConstants;
 import com.example.aurora.myweb3j.util.Web3jUtils;
 
-import static com.example.aurora.myweb3j.MainActivity.web3j;
+import static com.example.aurora.myweb3j.MainedActivity.web3j;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNull;

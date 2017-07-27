@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_white"
+    android:focusable="true"
+    android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/ly_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/bg_white"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView2"
+            />
+
+        <EditText android:id="@+id/find_parking"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Input Number"
+            android:inputType="numberSigned"
+            android:textColorHint="@color/text_gray"
+            android:textColor="@color/bg_black"
+
+            />
+
+        <Button android:id="@+id/search_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Find"
+            />
+    </LinearLayout>
+
+
+
+
+</LinearLayout>
