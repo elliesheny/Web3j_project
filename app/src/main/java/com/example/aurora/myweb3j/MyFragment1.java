@@ -14,6 +14,7 @@ import android.widget.EditText;
 
 import org.web3j.abi.datatypes.Utf8String;
 import org.web3j.abi.datatypes.generated.Uint256;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
 import java.util.concurrent.ExecutionException;
 
@@ -40,24 +41,39 @@ public class MyFragment1 extends Fragment {
             {
                 EditText editText = (EditText) getView().findViewById(R.id.find_parking);
                 int parking_no = Integer.parseInt(editText.getText().toString());
+                TransactionReceipt result_receipt = null;
                 Utf8String result = null;
                 try {
-                    result = MainActivity.contract.queryParking(new Uint256(parking_no)).get();
+                    result_receipt = MainActivity.contract.queryParking(new Uint256(parking_no)).get();
+                    result = MainActivity.contract.uintto().get();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
-                System.out.println("Available hour: " +result.getValue());
-                String name = "amanda";
-                String phone = "07528976382";
-                String parking_add = "John Adams Hall";
-                String avail_hour = result+"";
-                String hour_1 = avail_hour.substring(0, 23);
-                String hour_2 = avail_hour.substring(24, 47);
-                String hour_3 = avail_hour.substring(48, 71);
+                System.out.println("Parking Info: " +result.getValue());
+                String coded_result = result.getValue();
                 seller find_seller=new seller();
-                find_seller.setseller(parking_no,name,phone, parking_add, hour_1,hour_2,hour_3);
+                find_seller.id = parking_no;
+                String temp=coded_result.substring(0, coded_result.indexOf('*'));
+                find_seller.name=temp;
+                coded_result=coded_result.substring(coded_result.indexOf('*')+1);
+
+                temp=coded_result.substring(0, coded_result.indexOf('*'));
+                find_seller.phone=temp;
+                coded_result=coded_result.substring(coded_result.indexOf('*')+1);
+
+                temp=coded_result.substring(0, coded_result.indexOf('*'));
+                find_seller.post_code=temp;
+                coded_result=coded_result.substring(coded_result.indexOf('*')+1);
+
+                temp=coded_result.substring(0, coded_result.indexOf('*'));
+                find_seller.avaliable_date_1=temp.substring(0, 23);
+                find_seller.avaliable_date_2=temp.substring(24, 47);
+                find_seller.avaliable_date_3=temp.substring(48, 71);
+                find_seller.parking_add=coded_result.substring(coded_result.indexOf('*')+1);
+
+                //find_seller.setseller(parking_no,find_seller.name,find_seller.phone,find_seller.post_code,find_seller.parking_add,find_seller.avaliable_date_1,find_seller.avaliable_date_2,find_seller.avaliable_date_3);
                 Intent intent = new Intent(getActivity().getApplicationContext(), NewOrderActivity.class);
                 Bundle bundle=new Bundle();
                 bundle.putSerializable("seller", find_seller);

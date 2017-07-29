@@ -1,15 +1,24 @@
 package com.example.aurora.myweb3j.util;
 
+import com.example.aurora.myweb3j.LoginActivity;
+import com.example.aurora.myweb3j.MainActivity;
+
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
+import org.web3j.protocol.core.methods.request.Transaction;
+import org.web3j.protocol.core.methods.response.EthAccounts;
 import org.web3j.protocol.core.methods.response.EthGetBalance;
 import org.web3j.protocol.core.methods.response.EthGetTransactionCount;
 import org.web3j.protocol.core.methods.response.EthGetTransactionReceipt;
+import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
 import java.math.BigInteger;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+
+import static com.example.aurora.myweb3j.LoginActivity.web3j;
 
 /**
  * Created by yuan.
@@ -81,4 +90,21 @@ public class Web3jUtils {
 
         return ethGetTransactionCount.getTransactionCount();
     }
+
+    static public String getCoinbase() {
+        return getAccount(0);
+    }
+    static String getAccount(int i) {
+        try {
+            EthAccounts accountsResponse = web3j.ethAccounts().sendAsync().get();
+            List<String> accounts = accountsResponse.getAccounts();
+
+            return accounts.get(i);
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+            return "<no address>";
+        }
+    }
+
 }

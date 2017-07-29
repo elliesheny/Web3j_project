@@ -12,7 +12,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:text="User ID:"
+            android:text="User Address:"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -20,7 +20,7 @@
             android:textSize="20sp"/>
 
         <EditText
-            android:id="@+id/edit_userid"
+            android:id="@+id/edit_useradd"
             android:layout_weight="2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -75,75 +75,8 @@
             android:textSize="15sp"
             />
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
 
-        <TextView
-            android:text="Car Number:"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/bg_black"
-            android:textSize="20sp"/>
 
-        <EditText
-            android:id="@+id/edit_usercarno"
-            android:layout_weight="2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textColorHint="@color/text_gray"
-            android:textColor="@color/bg_black"
-            android:textSize="15sp"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:text="Password:"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/bg_black"
-            android:textSize="20sp"/>
-
-        <EditText
-            android:id="@+id/edit_userpwd"
-            android:layout_weight="2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textColorHint="@color/text_gray"
-            android:textColor="@color/bg_black"
-            android:maxLength="6"
-            android:textSize="15sp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:text="Email:"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/bg_black"
-            android:textSize="20sp"/>
-
-        <EditText
-            android:id="@+id/edit_useremail"
-            android:layout_weight="2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textColorHint="@color/text_gray"
-            android:textColor="@color/bg_black"
-            android:textSize="15sp"
-            />
-    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -157,12 +90,11 @@
             android:textColor="@color/bg_black"
             android:textSize="20sp"/>
 
-        <EditText
-            android:id="@+id/edit_userbalance"
+        <TextView
+            android:id="@+id/text_userbalance"
             android:layout_weight="2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textColorHint="@color/text_gray"
             android:textColor="@color/bg_black"
             android:textSize="15sp"
             />

@@ -10,12 +10,18 @@ import android.widget.TextView;
 import com.example.aurora.myweb3j.contract.ManageOrder;
 import com.example.aurora.myweb3j.util.Alice;
 import com.example.aurora.myweb3j.util.Web3jConstants;
+import com.example.aurora.myweb3j.util.Web3jUtils;
 
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.generated.Uint256;
+import org.web3j.protocol.core.methods.request.Transaction;
+import org.web3j.protocol.core.methods.response.EthSendTransaction;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
 import java.math.BigInteger;
 import java.util.concurrent.ExecutionException;
+
+import static com.example.aurora.myweb3j.LoginActivity.web3j;
 
 public class MainActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener,
         ViewPager.OnPageChangeListener {
@@ -54,12 +60,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         } catch (Exception e) {
             e.printStackTrace();
         }
-        BigInteger amountWei = new BigInteger("500000000000000000");
-        try {
-            NewAccountActivity.transferWei(NewAccountActivity.getCoinbase(), Alice.ADDRESS, amountWei);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         Uint256 result = null;
         try {
             result = contract.getBalance(new Address(Alice.ADDRESS)).get();
@@ -139,14 +140,32 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         System.out.println("// Deploy contract");
 
         contract = ManageOrder
-                .load(Web3jConstants.CONTRACT_ADDRESS, LoginActivity.web3j, Alice.CREDENTIALS, Web3jConstants.GAS_PRICE, Web3jConstants.GAS_LIMIT_ETHER_TX.multiply(BigInteger.valueOf(2)));
+                .load(Web3jConstants.CONTRACT_ADDRESS, web3j, Alice.CREDENTIALS, Web3jConstants.GAS_PRICE, Web3jConstants.GAS_LIMIT_ETHER_TX.multiply(BigInteger.valueOf(2)));
 
         String contractAddress = contract.getContractAddress();
         System.out.println("Contract address: " + contractAddress);
         //System.out.println("Contract address balance (initial): " + Web3jUtils.getBalanceWei(MainedActivity.web3j, contractAddress));
         return contract;
     }
+    static String transferWei(String from, String to, BigInteger amountWei) throws Exception {
+        BigInteger nonce = getNonce(from);
+        Transaction transaction = Transaction.createEtherTransaction(
+                from, nonce, Web3jConstants.GAS_PRICE, Web3jConstants.GAS_LIMIT_ETHER_TX, to, amountWei);
 
+        EthSendTransaction ethSendTransaction = web3j.ethSendTransaction(transaction).sendAsync().get();
+        System.out.println("transferWei. nonce: " + nonce + " amount: " + amountWei + " to: " + to);
+
+        String txHash = ethSendTransaction.getTransactionHash();
+        waitForReceipt(txHash);
+
+        return txHash;
+    }
+    static BigInteger getNonce(String address) throws Exception {
+        return Web3jUtils.getNonce(web3j, address);
+    }
+    static TransactionReceipt waitForReceipt(String transactionHash) throws Exception {
+        return Web3jUtils.waitForReceipt(web3j, transactionHash);
+    }
 
 
 }

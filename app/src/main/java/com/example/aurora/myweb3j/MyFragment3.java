@@ -8,6 +8,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.example.aurora.myweb3j.util.Alice;
+import com.example.aurora.myweb3j.util.Web3jUtils;
+
+import org.web3j.abi.datatypes.Address;
+import org.web3j.abi.datatypes.generated.Uint256;
+
+import java.math.BigInteger;
+import java.util.concurrent.ExecutionException;
 
 
 public class MyFragment3 extends android.support.v4.app.Fragment {
@@ -17,8 +28,8 @@ public class MyFragment3 extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_myaccount,container,false);
-//        EditText edit_userid = (EditText) view.findViewById(R.id.edit_userid);
-//        edit_userid.setText(MainedActivity.user_me.userid+"");
+        EditText edit_userid = (EditText) view.findViewById(R.id.edit_useradd);
+        edit_userid.setText(Alice.ADDRESS+"");
 //        edit_userid.setEnabled(false);
 //
 //        EditText edit_userpwd = (EditText) view.findViewById(R.id.edit_userpwd);
@@ -33,9 +44,17 @@ public class MyFragment3 extends android.support.v4.app.Fragment {
 //        EditText edit_useremail = (EditText) view.findViewById(R.id.edit_useremail);
 //        edit_useremail.setText(MainedActivity.user_me.email+"");
 //
-//        final EditText edit_userbalance = (EditText) view.findViewById(R.id.edit_userbalance);
-//        edit_userbalance.setText(MainedActivity.user_me.balance+"");
-//        edit_userbalance.setEnabled(false);
+        Uint256 result = new Uint256(4);
+        try {
+            result = MainActivity.contract.getBalance(new Address(Alice.ADDRESS)).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Balance from the address: " +result.getValue());
+        final TextView edit_userbalance = (TextView) view.findViewById(R.id.text_userbalance);
+        edit_userbalance.setText(result.getValue()+"");
 //
 //        EditText edit_usercharge = (EditText) view.findViewById(R.id.edit_usercharge);
 //        edit_usercharge.setText("0");
@@ -121,7 +140,12 @@ public class MyFragment3 extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View v)
             {
-
+                BigInteger amountWei = new BigInteger("500000000000000000");
+                try {
+                    MainActivity.transferWei(Web3jUtils.getCoinbase(), Alice.ADDRESS, amountWei);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
 //                EditText edit_usercharge = (EditText) view.findViewById(R.id.edit_usercharge);
 //                MainedActivity.user_me.balance = Double.valueOf(edit_usercharge.getText().toString());

@@ -23,7 +23,7 @@ import java.io.InputStreamReader;
 import java.util.concurrent.ExecutionException;
 
 public class LoginActivity extends AppCompatActivity{
-    static Web3j web3j = null;
+    static public Web3j web3j = null;
     static String clientUrl = null;
     static String[] accounts = new String[15];
     @Override
