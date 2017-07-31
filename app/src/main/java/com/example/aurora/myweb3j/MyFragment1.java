@@ -68,9 +68,11 @@ public class MyFragment1 extends Fragment {
                 coded_result=coded_result.substring(coded_result.indexOf('*')+1);
 
                 temp=coded_result.substring(0, coded_result.indexOf('*'));
-                find_seller.avaliable_date_1=temp.substring(0, 23);
-                find_seller.avaliable_date_2=temp.substring(24, 47);
-                find_seller.avaliable_date_3=temp.substring(48, 71);
+                Log.d("hours",temp);
+                find_seller.available_date_1=temp.substring(0, 24);
+                find_seller.available_date_2=temp.substring(24, 48);
+                find_seller.available_date_3=temp.substring(48, 72);
+                Log.d("avail_hour",find_seller.available_date_1+"and"+find_seller.available_date_2);
                 find_seller.parking_add=coded_result.substring(coded_result.indexOf('*')+1);
 
                 //find_seller.setseller(parking_no,find_seller.name,find_seller.phone,find_seller.post_code,find_seller.parking_add,find_seller.avaliable_date_1,find_seller.avaliable_date_2,find_seller.avaliable_date_3);

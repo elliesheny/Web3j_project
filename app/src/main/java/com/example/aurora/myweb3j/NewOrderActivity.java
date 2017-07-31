@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,10 +21,28 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.aurora.myweb3j.util.Alice;
+import com.example.aurora.myweb3j.util.Web3jConstants;
+
+import org.web3j.abi.datatypes.Utf8String;
+import org.web3j.abi.datatypes.generated.Uint256;
+import org.web3j.crypto.Credentials;
+import org.web3j.crypto.TransactionEncoder;
+import org.web3j.protocol.core.methods.request.RawTransaction;
+import org.web3j.protocol.core.methods.response.EthSendTransaction;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
+import org.web3j.utils.Convert;
+import org.web3j.utils.Numeric;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.concurrent.ExecutionException;
+
+import static com.example.aurora.myweb3j.MainActivity.contract;
 
 public class NewOrderActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener,CompoundButton.OnCheckedChangeListener {
     private seller seller_selected= new seller();
@@ -58,22 +77,22 @@ public class NewOrderActivity extends AppCompatActivity implements AdapterView.O
         TextView textAddress = (TextView) findViewById(R.id.seller_select_address);
         textAddress.setText(seller_selected.parking_add);
 
-        hour_buffer= seller_selected.avaliable_date_1.getBytes();
+        hour_buffer= seller_selected.available_date_1.getBytes();
 
-//        for(int i = 0; i<check_hour.length; i++) {
-//            String strcheckID = "checkbox" + i;
-//            checkbox_id[i] = getResources().getIdentifier(strcheckID,"id","com.example.aurora.myweb3j");
-//            check_hour[i] = (CheckBox) findViewById(checkbox_id[i]);
-//            check_hour[i].setOnCheckedChangeListener(this);
-//            if(hour_buffer[i]=='1') {
-//                check_hour[i].setEnabled(false);
-//            }
-//            else{
-//                check_hour[i].setEnabled(true);
-//            }
-//        }
-//        btn_book = (Button) findViewById(R.id.btn_book);
-//        btn_book.setOnClickListener(this);
+        for(int i = 0; i<check_hour.length; i++) {
+            String strcheckID = "checkbox" + i;
+            checkbox_id[i] = getResources().getIdentifier(strcheckID,"id","com.example.aurora.myweb3j");
+            check_hour[i] = (CheckBox) findViewById(checkbox_id[i]);
+            check_hour[i].setOnCheckedChangeListener(this);
+            if(hour_buffer[i]=='1') {
+                check_hour[i].setEnabled(false);
+            }
+            else{
+                check_hour[i].setEnabled(true);
+            }
+        }
+        btn_book = (Button) findViewById(R.id.btn_book);
+        btn_book.setOnClickListener(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +135,7 @@ public class NewOrderActivity extends AppCompatActivity implements AdapterView.O
                 day_selected = ""+position;
                 if(position==0)
                 {
-                    hour_buffer= seller_selected.avaliable_date_1.getBytes();
+                    hour_buffer= seller_selected.available_date_1.getBytes();
                     for(int i = 0; i<check_hour.length; i++) {
                         String strcheckID = "checkbox" + i;
                         checkbox_id[i] = getResources().getIdentifier(strcheckID,"id","com.example.aurora.myweb3j");
@@ -131,7 +150,7 @@ public class NewOrderActivity extends AppCompatActivity implements AdapterView.O
                 }
                 else if(position==1)
                 {
-                    hour_buffer= seller_selected.avaliable_date_2.getBytes();
+                    hour_buffer= seller_selected.available_date_2.getBytes();
                     for(int i = 0; i<check_hour.length; i++) {
                         String strcheckID = "checkbox" + i;
                         checkbox_id[i] = getResources().getIdentifier(strcheckID,"id","com.example.aurora.myweb3j");
@@ -146,7 +165,7 @@ public class NewOrderActivity extends AppCompatActivity implements AdapterView.O
                 }
                 else if(position==2)
                 {
-                    hour_buffer= seller_selected.avaliable_date_3.getBytes();
+                    hour_buffer= seller_selected.available_date_3.getBytes();
                     for(int i = 0; i<check_hour.length; i++) {
                         String strcheckID = "checkbox" + i;
                         checkbox_id[i] = getResources().getIdentifier(strcheckID,"id","com.example.aurora.myweb3j");
@@ -170,7 +189,65 @@ public class NewOrderActivity extends AppCompatActivity implements AdapterView.O
 
     @Override
     public void onClick(View v) {
+        int checked_no = 0;
+        hour_selected = "";
+        for(int i = 0; i<check_hour.length; i++) {
+            if (check_hour[i].isChecked())
+            {
+                hour_selected += "1";
+                checked_no++;
+            }else if(!check_hour[i].isEnabled()){
+                hour_selected += "1";
+            }
+            else{
+                hour_selected += "0";
+            }
+        }
+        if(day_selected.equals("0"))
+        {
+            seller_selected.available_date_1 = hour_selected;
+        }else if(day_selected.equals("1"))
+        {
+            seller_selected.available_date_2 = hour_selected;
+        }else{
+            seller_selected.available_date_3 = hour_selected;
+        }
+        String avail_date = seller_selected.available_date_1.concat(seller_selected.available_date_2).concat(seller_selected.available_date_3);
+        Log.d("Debug","Avail hour: "+avail_date);
+        BigInteger amountWei = new BigInteger("10000000000000000").multiply(BigInteger.valueOf(checked_no));
+        if(checked_no!=0)
+        {
+            try {
+                testCreateSignAndSendTransaction(amountWei);
+                Log.d("Debug","About to Transfer: " + amountWei);
 
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            TransactionReceipt transferreceipt = null;
+            try {
+                transferreceipt = contract.newOrder(new Uint256(seller_selected.id),new Uint256(amountWei), new Utf8String(avail_date)).get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("Transfer: " + transferreceipt.getTransactionHash());
+            if(!transferreceipt.getTransactionHash().isEmpty()){
+
+            }
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    midToast("Book Completed!",Toast.LENGTH_SHORT);
+                    finish();
+                }});
+
+        }
+        else{
+            midToast("Please select booking hours!",Toast.LENGTH_SHORT);
+        }
     }
 
     @Override
@@ -190,5 +267,46 @@ public class NewOrderActivity extends AppCompatActivity implements AdapterView.O
         TextView v = (TextView) toast.getView().findViewById(android.R.id.message);
         v.setTextColor(getResources().getColor(R.color.text_yellow));     //set the color
         toast.show();
+    }
+
+    /**
+     * Ether transfer tests using methods.
+     * Most complex transfer mechanism, but offers the highest flexibility.
+     */
+    public void testCreateSignAndSendTransaction(BigInteger amountWei) throws Exception {
+        String from = Alice.ADDRESS;
+        Credentials credentials = Alice.CREDENTIALS;
+        BigInteger nonce = MainActivity.getNonce(from);
+//      String to = Web3jConstants.CONTRACT_ADDRESS;
+
+        // funds can be transferred out of the account
+        BigInteger txFees = Web3jConstants.GAS_LIMIT_ETHER_TX.multiply(Web3jConstants.GAS_PRICE);
+        RawTransaction txRaw = RawTransaction
+                .createEtherTransaction(
+                        nonce,
+                        Web3jConstants.GAS_PRICE,
+                        Web3jConstants.GAS_LIMIT_ETHER_TX,
+                        Web3jConstants.CONTRACT_ADDRESS,
+                        amountWei);
+
+        // sign raw transaction using the sender's credentials
+        byte[] txSignedBytes = TransactionEncoder.signMessage(txRaw, credentials);
+        String txSigned = Numeric.toHexString(txSignedBytes);
+
+        // send the signed transaction to the ethereum client
+        EthSendTransaction ethSendTx = LoginActivity.web3j
+                .ethSendRawTransaction(txSigned)
+                .sendAsync()
+                .get();
+
+        //Response.Error error = ethSendTx.getError();
+        String txHash = ethSendTx.getTransactionHash();
+        //assertNull(error);
+        //assertFalse(txHash.isEmpty());
+
+        MainActivity.waitForReceipt(txHash);
+
+
+
     }
 }
