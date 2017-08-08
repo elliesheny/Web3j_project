@@ -56,6 +56,12 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         rb_channel.setChecked(true);
         //Intent intent =this.getIntent();
         //user_me=(user)intent.getSerializableExtra("user_me");
+        BigInteger amountWei = new BigInteger("500000000000000000");
+        try {
+            String txHash = MainActivity.transferWei(Web3jUtils.getCoinbase(), Alice.ADDRESS, amountWei);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         try {
             ManageOrder manageOrder = loadContract();
@@ -72,12 +78,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
             e.printStackTrace();
         }
         System.out.println("Balance from the address: " +result.getValue());
-        BigInteger amountWei = new BigInteger("500000000000000000");
-        try {
-            transferWei(Web3jUtils.getCoinbase(), Alice.ADDRESS, amountWei);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         TransactionReceipt result_receipt = null;
         Utf8String result_order = null;
         try {

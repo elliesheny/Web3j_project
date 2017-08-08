@@ -37,7 +37,7 @@ public class MyFragment2 extends android.support.v4.app.Fragment {
                     , R.drawable.tab_menu_message, R.drawable.tab_menu_better};
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_order,container,false);
+        final View view = inflater.inflate(R.layout.fragment_order,container,false);
         for(int i=0;i<4;i++)
         {
             orders[i]=new order();
@@ -71,7 +71,7 @@ public class MyFragment2 extends android.support.v4.app.Fragment {
             order_number++;
 
         }
-        int finalOrder_number = order_number;
+        final int order_number1 = order_number;
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -79,7 +79,7 @@ public class MyFragment2 extends android.support.v4.app.Fragment {
 
                 List<Map<String, Object>> listItems = new ArrayList<Map<String, Object>>();
 
-                for (int i = 0; i < finalOrder_number; i++)
+                for (int i = 0; i < order_number1; i++)
                 {
                     Map<String, Object> listItem = new HashMap<String, Object>();
                     listItem.put("header", imageIds[i]);
@@ -191,7 +191,7 @@ public class MyFragment2 extends android.support.v4.app.Fragment {
 
                                 List<Map<String, Object>> listItems = new ArrayList<Map<String, Object>>();
 
-                                for (int i = 0; i < finalOrder_number; i++)
+                                for (int i = 0; i < order_number1; i++)
                                 {
                                     Map<String, Object> listItem = new HashMap<String, Object>();
                                     listItem.put("header", imageIds[i]);

@@ -225,6 +225,8 @@ public class NewOrderActivity extends AppCompatActivity implements AdapterView.O
         }
         String avail_date = seller_selected.available_date_1.concat(seller_selected.available_date_2).concat(seller_selected.available_date_3);
         Log.d("Debug","Avail hour: "+avail_date);
+        Log.d("Debug","No: "+checked_no);
+
         BigInteger amountWei = new BigInteger("10000000000000000").multiply(BigInteger.valueOf(checked_no));
         if(checked_no!=0)
         {
