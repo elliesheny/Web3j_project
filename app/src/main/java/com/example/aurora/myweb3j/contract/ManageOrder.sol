@@ -12,6 +12,7 @@ contract ManageOrder{
         address seller;
         uint256 parkingNo;
         State state;
+        string new_hour;
         uint256 price;
         uint date;
     }
@@ -34,22 +35,22 @@ struct Parking {
  count = 0;
  count_parking=0;
  }
- 
+
  modifier onlyBuyer(uint256 order_no) {
         require(msg.sender == Orders[order_no].buyer);
         _;
     }
- 
+
  modifier onlySeller(uint256 order_no) {
         require(msg.sender == Orders[order_no].seller);
         _;
     }
-    
+
  modifier inState(State _state, uint256 order_no) {
         require(Orders[order_no].state == _state);
         _;
     }
-    
+
  modifier isMoney(uint _price){
         require(balances[msg.sender]>=_price);
         _;
@@ -59,18 +60,27 @@ struct Parking {
     require(sha3(Parkings[parkingNo].post_code)!=0);
     _;
  }
-    
+
  function depositEther(uint _value) returns (bool success){
      if(balances[msg.sender]<0){
      return false;}
-     
+
      balances[msg.sender]+=_value;
      return true;
- }    
- 
+ }
+
    function newParking(string _name, string _phone, string _post_code, string _park_address) {
-    count_parking++;
-    var newParking = Parking({
+    bool parking_exist = false;
+    uint parking_no;
+    for(uint i=1; i<=count_parking; i++){
+        if (Parkings[count_parking].seller == msg.sender){
+            parking_exist = true;
+            parking_no = count_parking;
+        }
+    }
+    if(!parking_exist){
+        count_parking++;
+    var new_Parking = Parking({
             parkingNo:count_parking,
             seller:msg.sender,
             name:_name,
@@ -79,11 +89,33 @@ struct Parking {
             avail_hour:"000000000000000000000000000000000000000000000000000000000000000000000000",
             park_address:_park_address
         });
-    Parkings[count_parking] = newParking;
+    Parkings[count_parking] = new_Parking;
+    }else{
+        Parkings[parking_no].name = _name;
+        Parkings[parking_no].phone = _phone;
+        Parkings[parking_no].post_code = _post_code;
+        Parkings[parking_no].park_address= _park_address;
+    }
+
  }
- 
- 
- function newOrder(uint256 _parkingNo, uint256 _price, string _avail_hour)
+ function numParking() constant returns (string){
+    for(uint i=1; i<=count_parking; i++){
+        if (Parkings[count_parking].seller == msg.sender){
+            result = strConcat2(strConcat1(Parkings[count_parking].name, Parkings[count_parking].phone, Parkings[count_parking].post_code), Parkings[count_parking].avail_hour, Parkings[count_parking].park_address,uintToString(count_parking));
+
+        }
+    }
+    return result;
+ }
+
+ function manageParking(uint256 _parkingNo, string _avail_hour)
+ isSeller(_parkingNo)
+ {
+    if(Parkings[_parkingNo].seller == msg.sender)
+    Parkings[_parkingNo].avail_hour= _avail_hour;
+ }
+
+ function newOrder(uint256 _parkingNo, uint256 _price, string _avail_hour, string _new_hour)
         isMoney(_price)
         isSeller(_parkingNo)
     {
@@ -91,25 +123,26 @@ struct Parking {
     //require(sha3(Parkings[_seller].post_code)!=0);
     //require(_price==msg.value);
     count = count+1;
-     
-    var newOrder = Order({
+
+    var new_Order = Order({
             orderNo: count,
             parkingNo: _parkingNo,
             buyer: msg.sender,
             seller:Parkings[_parkingNo].seller,
             state: State.Created,
+            new_hour:_new_hour,
             price:_price,
             date:now
         });
-    Orders[count] = newOrder;
-    Parkings[_parkingNo].avail_hour = _avail_hour; 
+    Orders[count] = new_Order;
+    Parkings[_parkingNo].avail_hour = _avail_hour;
     balances[Orders[count].buyer] -= _price;
     Orders[count].state = State.Pending;
  }
- 
- 
+
+
  function queryParking(uint _parkingNo) returns (string _hour){
-    result = strConcat(Parkings[_parkingNo].name, Parkings[_parkingNo].phone, Parkings[_parkingNo].post_code, Parkings[_parkingNo].avail_hour, Parkings[_parkingNo].park_address);
+    result = strConcat2(strConcat1(Parkings[_parkingNo].name, Parkings[_parkingNo].phone, Parkings[_parkingNo].post_code), Parkings[_parkingNo].avail_hour, Parkings[_parkingNo].park_address, "");
     return result;
  }
 
@@ -124,51 +157,84 @@ struct Parking {
           string memory _c = enumToString(Orders[i].state);
           string memory _d = uintToString(Orders[i].price);
           string memory _e = uintToString(Orders[i].date);
-          
-          //string memory _b = 
+
+          //string memory _b =
           //bytes32 data = bytes32(123456789);
           //result = uintToString(123456789123456789);
-          sub_result[display_no] = strConcat(_a,_b,_c,_d,_e);
+          sub_result[display_no] = strConcat2(strConcat1(_a,_b,_c),_d,_e,Orders[i].new_hour);
           display_no++;
       }
     }
-    result = strConcat(sub_result[0],sub_result[1],sub_result[2],sub_result[3],"");
-    return result; 
+    //result = sub_result[display_no-1];
+    result = ordersConcat(sub_result[0],sub_result[1],sub_result[2],sub_result[3],"");
+    return result;
  }
- 
- function strConcat(string _a, string _b, string _c, string _d, string _e) internal returns (string){
+
+ function strConcat1(string _a, string _b, string _c) internal returns (string){
+    bytes memory _ba = bytes(_a);
+    bytes memory _bb = bytes(_b);
+    bytes memory _bc = bytes(_c);
+
+    string memory abc = new string(_ba.length + _bb.length + _bc.length + 3);
+    bytes memory babc = bytes(abc);
+    uint k = 0;
+    for (uint i = 0; i < _ba.length; i++) babc[k++] = _ba[i];
+    babc[k++] = "*";
+    for (i = 0; i < _bb.length; i++) babc[k++] = _bb[i];
+    babc[k++] = "*";
+    for (i = 0; i < _bc.length; i++) babc[k++] = _bc[i];
+
+
+    return string(babc);
+}
+function strConcat2(string _a, string _b, string _c, string _d) internal returns (string){
+    bytes memory _ba = bytes(_a);
+    bytes memory _bb = bytes(_b);
+    bytes memory _bc = bytes(_c);
+    bytes memory _bd = bytes(_d);
+
+    string memory abcd = new string(_ba.length + _bb.length + _bc.length + _bd.length + 4);
+    bytes memory babcd = bytes(abcd);
+    uint k = 0;
+    for (uint i = 0; i < _ba.length; i++) babcd[k++] = _ba[i];
+    babcd[k++] = "*";
+    for (i = 0; i < _bb.length; i++) babcd[k++] = _bb[i];
+    babcd[k++] = "*";
+    for (i = 0; i < _bc.length; i++) babcd[k++] = _bc[i];
+    babcd[k++] = "*";
+    for (i = 0; i < _bd.length; i++) babcd[k++] = _bd[i];
+    babcd[k++] = "%";
+    return string(babcd);
+}
+
+function ordersConcat(string _a, string _b, string _c, string _d, string _e) internal returns (string){
     bytes memory _ba = bytes(_a);
     bytes memory _bb = bytes(_b);
     bytes memory _bc = bytes(_c);
     bytes memory _bd = bytes(_d);
     bytes memory _be = bytes(_e);
-    string memory abcde = new string(_ba.length + _bb.length + _bc.length + _bd.length + _be.length+ 5);
+    string memory abcde = new string(_ba.length + _bb.length + _bc.length + _bd.length + _be.length);
     bytes memory babcde = bytes(abcde);
     uint k = 0;
     for (uint i = 0; i < _ba.length; i++) babcde[k++] = _ba[i];
-    babcde[k++] = "*";
     for (i = 0; i < _bb.length; i++) babcde[k++] = _bb[i];
-    babcde[k++] = "*";
     for (i = 0; i < _bc.length; i++) babcde[k++] = _bc[i];
-    babcde[k++] = "*";
     for (i = 0; i < _bd.length; i++) babcde[k++] = _bd[i];
-    babcde[k++] = "*";
     for (i = 0; i < _be.length; i++) babcde[k++] = _be[i];
-    babcde[k++] = "%";
     return string(babcde);
 }
- 
- 
- function abortOrder(uint256 order_no) 
-        onlyBuyer(order_no) 
-        inState(State.Pending,order_no) 
+
+
+ function abortOrder(uint256 order_no)
+        onlyBuyer(order_no)
+        inState(State.Pending,order_no)
     {
         Orders[order_no].state = State.Aborted;
         address buyer = Orders[order_no].buyer;
         //return the money to buyer
         buyer.transfer(Orders[order_no].price);
         balances[Orders[order_no].buyer] += Orders[order_no].price;
-        
+
     }
  function confirmOrder(uint256 order_no)
         onlyBuyer(order_no)
@@ -184,11 +250,11 @@ function getBalance(address _user) constant returns (uint256 balance){
 
  return balances[_user];
  }
- 
+
  function () payable {
      balances[msg.sender]+=msg.value;
  }
- 
+
 
 
  function uintto() constant returns (string){
@@ -228,10 +294,5 @@ function addressToString(address x) returns (string) {
         b[i] = byte(uint8(uint(x) / (2**(8*(19 - i)))));
     return string(b);
 }
-    
+
 }
- //hello.then(function(instance) {return instance.neweded(50,50,{"from": web3.eth.accounts[0], "to":"0x9d7cae5f5d77f31a6dfe27de9622cf959c98e3c3", "value":web3.toWei(10,"ether")});}).then(function(result) {console.log(result);});
- //hello.then(function(instance) {return instance.uintToString("7519857642");}).then(function(result) {console.log(result);});
- //hello.then(function(instance) {return instance.newOrder(1,250,"111100000000000000000000000000000000000000000000000000000000000000000011");}).then(function(result) {console.log(result);});
- //hello.then(function(instance) {return instance.newParking("Amanda","07519857642","wc1h 0dp","John Adams Hall");}).then(function(result) {console.log(result);});
-//web3.eth.sendTransaction({from:web3.eth.accounts[0], to:"0xdbcfe7caaff34a79ec36b58bf6c119f2c10a5a37", value: web3.toWei(10,"ether"),data:50,50 }) 
