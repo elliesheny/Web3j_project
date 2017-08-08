@@ -52,7 +52,7 @@ public class MyFragment1 extends Fragment {
                     e.printStackTrace();
                 }
                 System.out.println("Parking Info: " +result.getValue());
-                String coded_result = result.getValue();
+                String coded_result = result.getValue().substring(0, result.getValue().indexOf('%'));
                 seller find_seller=new seller();
                 find_seller.id = parking_no;
                 String temp=coded_result.substring(0, coded_result.indexOf('*'));
@@ -64,7 +64,7 @@ public class MyFragment1 extends Fragment {
                 coded_result=coded_result.substring(coded_result.indexOf('*')+1);
 
                 temp=coded_result.substring(0, coded_result.indexOf('*'));
-                find_seller.post_code=temp;
+                find_seller.post_code=temp.substring(0,temp.length()-1);;
                 coded_result=coded_result.substring(coded_result.indexOf('*')+1);
 
                 temp=coded_result.substring(0, coded_result.indexOf('*'));
@@ -73,7 +73,8 @@ public class MyFragment1 extends Fragment {
                 find_seller.available_date_2=temp.substring(24, 48);
                 find_seller.available_date_3=temp.substring(48, 72);
                 Log.d("avail_hour",find_seller.available_date_1+"and"+find_seller.available_date_2);
-                find_seller.parking_add=coded_result.substring(coded_result.indexOf('*')+1);
+                coded_result=coded_result.substring(coded_result.indexOf('*')+1);
+                find_seller.parking_add=coded_result.substring(0, coded_result.indexOf('*'));
 
                 //find_seller.setseller(parking_no,find_seller.name,find_seller.phone,find_seller.post_code,find_seller.parking_add,find_seller.avaliable_date_1,find_seller.avaliable_date_2,find_seller.avaliable_date_3);
                 Intent intent = new Intent(getActivity().getApplicationContext(), NewOrderActivity.class);

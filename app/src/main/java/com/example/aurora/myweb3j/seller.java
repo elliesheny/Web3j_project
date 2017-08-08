@@ -16,6 +16,7 @@ public class seller implements Serializable {
     public String phone;//  varchar(14)
     public String post_code;
     public String parking_add;//  varchar(30)
+
     public seller()
     {
         id = 0;

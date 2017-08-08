@@ -2,16 +2,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_white">
+    android:background="@color/bg_white"
+    android:orientation="vertical">
 
     <Button
         android:text="Change/Create a Parking Lot"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:id="@+id/button_new_parking"
-        android:onClick="contract_new_parking"
         android:layout_marginTop="11dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         />
+    <Button
+        android:text="Manage My Parking Lot"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/button_manage_parking"
+        android:layout_marginTop="11dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        />
+
+
 </LinearLayout>

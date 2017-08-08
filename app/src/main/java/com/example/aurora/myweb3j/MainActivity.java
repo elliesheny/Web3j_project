@@ -13,6 +13,7 @@ import com.example.aurora.myweb3j.util.Web3jConstants;
 import com.example.aurora.myweb3j.util.Web3jUtils;
 
 import org.web3j.abi.datatypes.Address;
+import org.web3j.abi.datatypes.Utf8String;
 import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.protocol.core.methods.request.Transaction;
 import org.web3j.protocol.core.methods.response.EthSendTransaction;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     public static final int PAGE_FOUR = 3;
 
     static ManageOrder contract = null;
+    static String order_string;
 
 
     @Override
@@ -76,6 +78,20 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         } catch (Exception e) {
             e.printStackTrace();
         }
+        TransactionReceipt result_receipt = null;
+        Utf8String result_order = null;
+        try {
+            result_receipt = MainActivity.contract.listedOrder().get();
+            result_order = MainActivity.contract.uintto().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Recent Order Hash: " +result_receipt.getTransactionHash());
+        System.out.println("Order Result: " +result_order.getValue());
+        order_string = result_order.getValue();
+
     }
 
     private void bindViews() {

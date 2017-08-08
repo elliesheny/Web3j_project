@@ -54,6 +54,7 @@ public class NewOrderActivity extends AppCompatActivity implements AdapterView.O
     private int[] checkbox_id = new int[24];
     private Button btn_book;
     private String hour_selected = "";
+    private String hour_new = "";
     private String day_selected = "0";
     private String book_send;
     private byte[] hour_buffer = new byte[24];
@@ -76,6 +77,9 @@ public class NewOrderActivity extends AppCompatActivity implements AdapterView.O
         textPhone.setText(seller_selected.phone);
         TextView textAddress = (TextView) findViewById(R.id.seller_select_address);
         textAddress.setText(seller_selected.parking_add);
+        TextView textPostCode = (TextView) findViewById(R.id.seller_select_post_code);
+        textPostCode.setText(seller_selected.post_code);
+
 
         hour_buffer= seller_selected.available_date_1.getBytes();
 
@@ -191,26 +195,33 @@ public class NewOrderActivity extends AppCompatActivity implements AdapterView.O
     public void onClick(View v) {
         int checked_no = 0;
         hour_selected = "";
+        hour_new = "";
         for(int i = 0; i<check_hour.length; i++) {
             if (check_hour[i].isChecked())
             {
                 hour_selected += "1";
+                hour_new+="1";
                 checked_no++;
             }else if(!check_hour[i].isEnabled()){
                 hour_selected += "1";
+                hour_new+="0";
             }
             else{
                 hour_selected += "0";
+                hour_new+="0";
             }
         }
         if(day_selected.equals("0"))
         {
             seller_selected.available_date_1 = hour_selected;
+            hour_new = hour_new + "000000000000000000000000"+"000000000000000000000000";
         }else if(day_selected.equals("1"))
         {
             seller_selected.available_date_2 = hour_selected;
+            hour_new = "000000000000000000000000"+hour_new+"000000000000000000000000";
         }else{
             seller_selected.available_date_3 = hour_selected;
+            hour_new = "000000000000000000000000"+"000000000000000000000000"+hour_new;
         }
         String avail_date = seller_selected.available_date_1.concat(seller_selected.available_date_2).concat(seller_selected.available_date_3);
         Log.d("Debug","Avail hour: "+avail_date);
@@ -226,7 +237,7 @@ public class NewOrderActivity extends AppCompatActivity implements AdapterView.O
             }
             TransactionReceipt transferreceipt = null;
             try {
-                transferreceipt = contract.newOrder(new Uint256(seller_selected.id),new Uint256(amountWei), new Utf8String(avail_date)).get();
+                transferreceipt = contract.newOrder(new Uint256(seller_selected.id),new Uint256(amountWei), new Utf8String(avail_date),new Utf8String(hour_new)).get();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
@@ -236,14 +247,14 @@ public class NewOrderActivity extends AppCompatActivity implements AdapterView.O
             System.out.println("Transfer: " + transferreceipt.getTransactionHash());
             if(!transferreceipt.getTransactionHash().isEmpty()){
 
-            }
+
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     midToast("Book Completed!",Toast.LENGTH_SHORT);
                     finish();
                 }});
-
+            }
         }
         else{
             midToast("Please select booking hours!",Toast.LENGTH_SHORT);

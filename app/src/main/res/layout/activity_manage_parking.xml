@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.aurora.myweb3j.ManageParkingActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="8dp"
+        android:text="Select the day:"
+        android:textColor="@color/div_green"
+        android:textSize="18sp" />
+
+    <Spinner
+        android:id="@+id/spin_day"
+        android:layout_width="match_parent"
+        android:layout_height="64dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_white"
+        android:paddingLeft="8dp"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <CheckBox
+                android:id="@+id/checkbox0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/check_selector"
+                android:text="00:00"
+                android:checked="false" />
+            <CheckBox
+                android:id="@+id/checkbox1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/check_selector"
+                android:text="01:00"
+                android:checked="false" />
+            <CheckBox
+                android:id="@+id/checkbox2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/check_selector"
+                android:text="02:00"
+                android:checked="false" />
+            <CheckBox
+                android:id="@+id/checkbox3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/check_selector"
+                android:text="03:00"
+                android:checked="false" />
+            <CheckBox
+                android:id="@+id/checkbox4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/check_selector"
+                android:text="04:00"
+                android:checked="false" />
+            <CheckBox
+                android:id="@+id/checkbox5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/check_selector"
+                android:text="05:00"
+                android:checked="false" />
+            <CheckBox
+                android:id="@+id/checkbox6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/check_selector"
+                android:text="06:00"
+                android:checked="false" />
+            <CheckBox
+                android:id="@+id/checkbox7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/check_selector"
+                android:text="07:00"
+                android:checked="false" />
+            <CheckBox
+                android:id="@+id/checkbox8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/check_selector"
+                android:text="08:00"
+                android:checked="false" />
+            <CheckBox
+                android:id="@+id/checkbox9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/check_selector"
+                android:text="09:00"
+                android:checked="false" />
+            <CheckBox
+                android:id="@+id/checkbox10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/check_selector"
+                android:text="10:00"
+                android:checked="false" />
+            <CheckBox
+                android:id="@+id/checkbox11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/check_selector"
+                android:text="11:00"
+                android:checked="false" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <CheckBox
+                android:id="@+id/checkbox12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/check_selector"
+                android:text="12:00"
+                android:checked="false" />
+            <CheckBox
+                android:id="@+id/checkbox13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/check_selector"
+                android:text="13:00"
+                android:checked="false" />
+            <CheckBox
+                android:id="@+id/checkbox14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/check_selector"
+                android:text="14:00"
+                android:checked="false" />
+            <CheckBox
+                android:id="@+id/checkbox15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/check_selector"
+                android:text="15:00"
+                android:checked="false" />
+            <CheckBox
+                android:id="@+id/checkbox16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/check_selector"
+                android:text="16:00"
+                android:checked="false" />
+            <CheckBox
+                android:id="@+id/checkbox17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/check_selector"
+                android:text="17:00"
+                android:checked="false" />
+            <CheckBox
+                android:id="@+id/checkbox18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/check_selector"
+                android:text="18:00"
+                android:checked="false" />
+            <CheckBox
+                android:id="@+id/checkbox19"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/check_selector"
+                android:text="19:00"
+                android:checked="false" />
+            <CheckBox
+                android:id="@+id/checkbox20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/check_selector"
+                android:text="20:00"
+                android:checked="false" />
+            <CheckBox
+                android:id="@+id/checkbox21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/check_selector"
+                android:text="21:00"
+                android:checked="false" />
+            <CheckBox
+                android:id="@+id/checkbox22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/check_selector"
+                android:text="22:00"
+                android:checked="false" />
+            <CheckBox
+                android:id="@+id/checkbox23"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/check_selector"
+                android:text="23:00"
+                android:checked="false" />
+        </LinearLayout>
+    </LinearLayout>
+    <Button
+        android:id="@+id/btn_book"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Mark"/>
+
+</LinearLayout>
