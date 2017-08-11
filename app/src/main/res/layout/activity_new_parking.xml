@@ -11,10 +11,10 @@
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name"
         android:layout_gravity="center_horizontal"
+        android:ems="10"
+        android:hint="Name"
+        android:inputType="textPersonName"
         tools:layout_editor_absoluteX="85dp"
         tools:layout_editor_absoluteY="50dp" />
 
@@ -22,10 +22,10 @@
         android:id="@+id/post_code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Post Code"
         android:layout_gravity="center_horizontal"
+        android:ems="10"
+        android:hint="Post Code"
+        android:inputType="textPersonName"
         tools:layout_editor_absoluteX="85dp"
         tools:layout_editor_absoluteY="188dp" />
 
@@ -33,10 +33,10 @@
         android:id="@+id/parking_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Address"
         android:layout_gravity="center_horizontal"
+        android:ems="10"
+        android:hint="Address"
+        android:inputType="textPersonName"
         tools:layout_editor_absoluteX="85dp"
         tools:layout_editor_absoluteY="261dp" />
 
@@ -44,10 +44,10 @@
         android:id="@+id/phone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="phone"
-        android:text="Phone"
         android:layout_gravity="center_horizontal"
+        android:ems="10"
+        android:hint="Phone"
+        android:inputType="phone"
         tools:layout_editor_absoluteX="83dp"
         tools:layout_editor_absoluteY="117dp" />
 

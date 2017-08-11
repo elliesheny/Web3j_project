@@ -183,7 +183,7 @@ public class MyFragment2 extends android.support.v4.app.Fragment {
                             order_number++;
 
                         }
-                        int finalOrder_number = order_number;
+                        final int finalOrder_number = order_number;
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -191,7 +191,7 @@ public class MyFragment2 extends android.support.v4.app.Fragment {
 
                                 List<Map<String, Object>> listItems = new ArrayList<Map<String, Object>>();
 
-                                for (int i = 0; i < order_number1; i++)
+                                for (int i = 0; i < finalOrder_number; i++)
                                 {
                                     Map<String, Object> listItem = new HashMap<String, Object>();
                                     listItem.put("header", imageIds[i]);

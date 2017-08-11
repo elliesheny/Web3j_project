@@ -11,11 +11,14 @@ import android.widget.EditText;
 import com.example.aurora.myweb3j.contract.ManageOrder;
 import com.example.aurora.myweb3j.util.Alice;
 import com.example.aurora.myweb3j.util.Web3jConstants;
+import com.example.aurora.myweb3j.util.Web3jUtils;
 
 import org.web3j.abi.datatypes.Address;
+import org.web3j.abi.datatypes.Utf8String;
 import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Keys;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.utils.Numeric;
 
 import java.io.File;
@@ -75,15 +78,22 @@ public class RegisterActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            Uint256 result = null;
+            BigInteger amountWei = new BigInteger("500000000000000000");
             try {
-                result = contract.getBalance(new Address(Alice.ADDRESS)).get();
+                String txHash = MainActivity.transferWei(Web3jUtils.getCoinbase(), Alice.ADDRESS, amountWei);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            TransactionReceipt result = null;
+            try {
+                result = contract.newBuyer(new Utf8String(username),new Utf8String(userphone)).get();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
-            System.out.println("Balance from the address: " +result.getValue());
+            System.out.println("Balance from the address: " +result.getTransactionHash());
             startActivity(intent_main2);
         }else{
             startActivity(intent_register);

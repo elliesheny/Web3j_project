@@ -19,7 +19,7 @@ public class Web3jConstants {
 
     public static final int CONFIRMATION_ATTEMPTS = 40;
     public static final int SLEEP_DURATION = 1000;
-    public static final String CONTRACT_ADDRESS = "0x218175618a8631bf6ac43fc14c4e66346af27707";
+    public static final String CONTRACT_ADDRESS = "0xffca6dd8d02092b5983975c2b743f03b5d332778";
 
     // file name extensions for smart contracts
     public static final String EXT_SOLIDITY = "sol";

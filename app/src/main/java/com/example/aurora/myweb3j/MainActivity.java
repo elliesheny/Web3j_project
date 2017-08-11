@@ -69,16 +69,6 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
             e.printStackTrace();
         }
 
-        Uint256 result = null;
-        try {
-            result = contract.getBalance(new Address(Alice.ADDRESS)).get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Balance from the address: " +result.getValue());
-
         TransactionReceipt result_receipt = null;
         Utf8String result_order = null;
         try {

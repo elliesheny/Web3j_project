@@ -253,7 +253,7 @@ public class NewOrderActivity extends AppCompatActivity implements AdapterView.O
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    midToast("Book Completed!",Toast.LENGTH_SHORT);
+                    midToast("Book Finished!",Toast.LENGTH_SHORT);
                     finish();
                 }});
             }

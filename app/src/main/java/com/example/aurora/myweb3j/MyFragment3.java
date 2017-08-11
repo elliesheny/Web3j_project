@@ -11,13 +11,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.aurora.myweb3j.util.Alice;
 import com.example.aurora.myweb3j.util.Web3jUtils;
 
 import org.web3j.abi.datatypes.Address;
+import org.web3j.abi.datatypes.Utf8String;
 import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.utils.Convert;
 
 import java.math.BigDecimal;
@@ -32,21 +35,32 @@ public class MyFragment3 extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_myaccount,container,false);
-        EditText edit_userid = (EditText) view.findViewById(R.id.edit_useradd);
-        edit_userid.setText(Alice.ADDRESS+"");
-//        edit_userid.setEnabled(false);
-//
+        EditText edit_useradd = (EditText) view.findViewById(R.id.edit_useradd);
+        edit_useradd.setText(Alice.ADDRESS+"");
+        Log.d("Address: ",Alice.ADDRESS);
+        edit_useradd.setEnabled(false);
+
+
 //        EditText edit_userpwd = (EditText) view.findViewById(R.id.edit_userpwd);
 //        edit_userpwd.setText(MainedActivity.user_me.password+"");
+        Utf8String result_buyer = null;
+        try {
+            result_buyer = MainActivity.contract.queryBuyer().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        Log.d("Buyer: ", result_buyer+"");
+        String string_buyer = result_buyer+"";
+        String buyer_name = (string_buyer.substring(0, string_buyer.indexOf('*')));
+        string_buyer=string_buyer.substring(string_buyer.indexOf('*')+1);
+        String buyer_phone = (string_buyer.substring(0, string_buyer.indexOf('*')));
+        EditText edit_username = (EditText) view.findViewById(R.id.edit_username);
+        edit_username.setText(buyer_name);
+        EditText edit_userphone = (EditText) view.findViewById(R.id.edit_userphone);
+        edit_userphone.setText(buyer_phone);
 //
-//        EditText edit_username = (EditText) view.findViewById(R.id.edit_username);
-//        edit_username.setText(MainedActivity.user_me.username+"");
-//
-//        EditText edit_usercar = (EditText) view.findViewById(R.id.edit_usercarno);
-//        edit_usercar.setText(MainedActivity.user_me.carnumber+"");
-//
-//        EditText edit_useremail = (EditText) view.findViewById(R.id.edit_useremail);
-//        edit_useremail.setText(MainedActivity.user_me.email+"");
 //
         //get balance
         BigDecimal balance_in_ether = null;
@@ -62,13 +76,6 @@ public class MyFragment3 extends android.support.v4.app.Fragment {
 
         TextView edit_userbalance = (TextView) view.findViewById(R.id.text_userbalance);
         edit_userbalance.setText(balance_in_ether+"");
-//
-//        EditText edit_usercharge = (EditText) view.findViewById(R.id.edit_usercharge);
-//        edit_usercharge.setText("0");
-//
-//        EditText edit_userphone = (EditText) view.findViewById(R.id.edit_userphone);
-//        edit_userphone.setText(MainedActivity.user_me.mobilenumber+"");
-
 
         Button button_update = (Button) view.findViewById(R.id.button_update);
         button_update.setOnClickListener(new View.OnClickListener()
@@ -89,6 +96,28 @@ public class MyFragment3 extends android.support.v4.app.Fragment {
                 Log.d("Balance:", balance_in_ether+"");
                 TextView edit_userbalance = (TextView) view.findViewById(R.id.text_userbalance);
                 edit_userbalance.setText(balance_in_ether+"");
+                EditText edit_username = (EditText) view.findViewById(R.id.edit_username);
+                String buyer_name = edit_username.getText().toString();
+
+                EditText edit_userphone = (EditText) view.findViewById(R.id.edit_userphone);
+                String buyer_phone = edit_userphone.getText().toString();
+                TransactionReceipt transactionReceipt = null;
+                try {
+                    transactionReceipt = MainActivity.contract.newBuyer(new Utf8String(buyer_name),new Utf8String(buyer_phone)).get();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+                if(!transactionReceipt.getTransactionHash().isEmpty()){
+
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity().getApplicationContext(), "Updated!", Toast.LENGTH_LONG).show();
+                        }});
+                }
 
             }
         });
