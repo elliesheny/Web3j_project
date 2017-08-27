@@ -1,4 +1,4 @@
-package com.example.aurora.myweb3j;
+package com.example.aurora.myweb3j.util;
 
 import java.io.Serializable;
 
@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by yuan.
  */
 
-public class seller implements Serializable {
+public class Seller implements Serializable {
 
     public int id;//  int(11) AI PK
     public String name;//  varchar(10) PK
@@ -17,7 +17,7 @@ public class seller implements Serializable {
     public String post_code;
     public String parking_add;//  varchar(30)
 
-    public seller()
+    public Seller()
     {
         id = 0;
         name="0";

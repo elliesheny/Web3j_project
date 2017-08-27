@@ -127,13 +127,16 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:onClick="abort_order"
+            android:background="@color/text_yellow"
             android:text="Abort"/>
         <Button
             android:id="@+id/btn_confirm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
             android:gravity="center"
             android:onClick="confirm_order"
+            android:background="@color/text_yellow"
             android:text="Confirm"/>
 
     </LinearLayout>

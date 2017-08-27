@@ -1,9 +1,6 @@
 package com.example.aurora.myweb3j;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +13,7 @@ import android.widget.Toast;
 import com.example.aurora.myweb3j.util.Alice;
 import com.example.aurora.myweb3j.util.Web3jUtils;
 
-import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.Utf8String;
-import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.utils.Convert;
@@ -28,13 +23,13 @@ import java.math.BigInteger;
 import java.util.concurrent.ExecutionException;
 
 
-public class MyFragment3 extends android.support.v4.app.Fragment {
-    public MyFragment3() {
+public class MyAccountFragment extends android.support.v4.app.Fragment {
+    public MyAccountFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_myaccount,container,false);
+        final View view = inflater.inflate(R.layout.fragment_my_account,container,false);
         EditText edit_useradd = (EditText) view.findViewById(R.id.edit_useradd);
         edit_useradd.setText(Alice.ADDRESS+"");
         Log.d("Address: ",Alice.ADDRESS);

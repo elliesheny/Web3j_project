@@ -1,4 +1,4 @@
-package com.example.aurora.myweb3j;
+package com.example.aurora.myweb3j.util;
 
 import java.io.Serializable;
 
@@ -6,14 +6,14 @@ import java.io.Serializable;
  * Created by yuan.
  */
 
-public class order implements Serializable {
+public class Order implements Serializable {
     public int id;
     public int parking_no;
     public int state;
     public double price;
     public long date;
     public String hour_new;
-    public order(){
+    public Order(){
         int id = 0;
         int parking_no = 0;
         int state = 0;

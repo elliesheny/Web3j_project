@@ -22,6 +22,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.aurora.myweb3j.util.Alice;
+import com.example.aurora.myweb3j.util.Day;
+import com.example.aurora.myweb3j.util.MyAdapter;
+import com.example.aurora.myweb3j.util.Seller;
 import com.example.aurora.myweb3j.util.Web3jConstants;
 
 import org.web3j.abi.datatypes.Utf8String;
@@ -31,10 +34,8 @@ import org.web3j.crypto.TransactionEncoder;
 import org.web3j.protocol.core.methods.request.RawTransaction;
 import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
-import org.web3j.utils.Convert;
 import org.web3j.utils.Numeric;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -45,7 +46,7 @@ import java.util.concurrent.ExecutionException;
 import static com.example.aurora.myweb3j.MainActivity.contract;
 
 public class NewOrderActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener,CompoundButton.OnCheckedChangeListener {
-    private seller seller_selected= new seller();
+    private Seller seller_selected= new Seller();
     private Spinner spin_day;
     private Context mContext;
     private ArrayList<Day> mData = null;
@@ -64,7 +65,7 @@ public class NewOrderActivity extends AppCompatActivity implements AdapterView.O
         setContentView(R.layout.activity_new_order);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         Intent intent = getIntent();
-        seller_selected=(seller)intent.getSerializableExtra("seller");
+        seller_selected=(Seller)intent.getSerializableExtra("Seller");
         toolbar.setTitle(seller_selected.parking_add);
         setSupportActionBar(toolbar);
         setSupportActionBar(toolbar);

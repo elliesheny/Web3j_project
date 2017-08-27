@@ -32,9 +32,9 @@ import java.util.concurrent.ExecutionException;
 
 import static com.example.aurora.myweb3j.MainActivity.contract;
 
-public class MyFragment4 extends android.support.v4.app.Fragment {
+public class ManageFragment extends android.support.v4.app.Fragment {
 
-    public MyFragment4() {
+    public ManageFragment() {
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

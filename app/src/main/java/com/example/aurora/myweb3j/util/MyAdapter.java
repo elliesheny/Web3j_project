@@ -1,4 +1,4 @@
-package com.example.aurora.myweb3j;
+package com.example.aurora.myweb3j.util;
 
 import android.content.Context;
 import android.util.SparseArray;

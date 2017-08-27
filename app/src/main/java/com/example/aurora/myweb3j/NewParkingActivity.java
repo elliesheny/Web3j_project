@@ -11,13 +11,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.aurora.myweb3j.util.Seller;
+
 import org.web3j.abi.datatypes.Utf8String;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
 import java.util.concurrent.ExecutionException;
 
 public class NewParkingActivity extends AppCompatActivity {
-    private seller seller_new= new seller();
+    private Seller seller_new= new Seller();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

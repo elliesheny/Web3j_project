@@ -16,6 +16,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.aurora.myweb3j.util.Day;
+import com.example.aurora.myweb3j.util.MyAdapter;
+import com.example.aurora.myweb3j.util.Seller;
+
 import org.web3j.abi.datatypes.Utf8String;
 import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
@@ -34,7 +38,7 @@ public class ManageParkingActivity extends AppCompatActivity implements AdapterV
     private CheckBox[] check_hour = new CheckBox[24];
     private int[] checkbox_id = new int[24];
     private Button btn_book;
-    private seller me_seller= new seller();
+    private Seller me_seller= new Seller();
     private String day_selected = "0";
     private ArrayList<Day> mData = null;
     private Spinner spin_day;

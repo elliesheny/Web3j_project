@@ -13,6 +13,7 @@
         android:layout_marginTop="11dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
+        android:background="@color/text_yellow"
         />
     <Button
         android:text="Manage My Parking Lot"
@@ -22,6 +23,7 @@
         android:layout_marginTop="11dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
+        android:background="@color/text_yellow"
         />
 
 

@@ -1,8 +1,6 @@
 package com.example.aurora.myweb3j;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -12,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.aurora.myweb3j.util.Seller;
+
 import org.web3j.abi.datatypes.Utf8String;
 import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
@@ -19,9 +19,9 @@ import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import java.util.concurrent.ExecutionException;
 
 
-public class MyFragment1 extends Fragment {
+public class FindFragment extends Fragment {
 
-    public MyFragment1() {
+    public FindFragment() {
     }
 
 
@@ -53,7 +53,7 @@ public class MyFragment1 extends Fragment {
                 }
                 System.out.println("Parking Info: " +result.getValue());
                 String coded_result = result.getValue().substring(0, result.getValue().indexOf('%'));
-                seller find_seller=new seller();
+                Seller find_seller=new Seller();
                 find_seller.id = parking_no;
                 String temp=coded_result.substring(0, coded_result.indexOf('*'));
                 find_seller.name=temp;
@@ -79,7 +79,7 @@ public class MyFragment1 extends Fragment {
                 //find_seller.setseller(parking_no,find_seller.name,find_seller.phone,find_seller.post_code,find_seller.parking_add,find_seller.avaliable_date_1,find_seller.avaliable_date_2,find_seller.avaliable_date_3);
                 Intent intent = new Intent(getActivity().getApplicationContext(), NewOrderActivity.class);
                 Bundle bundle=new Bundle();
-                bundle.putSerializable("seller", find_seller);
+                bundle.putSerializable("Seller", find_seller);
                 intent.putExtras(bundle);
                 startActivity(intent);
 

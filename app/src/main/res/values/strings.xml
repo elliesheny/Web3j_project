@@ -3,7 +3,7 @@
     <string name="tab_menu_alert">Find</string>
     <string name="tab_menu_profile">Order</string>
     <string name="tab_menu_pay">My</string>
-    <string name="tab_menu_setting">Help</string>
+    <string name="tab_menu_setting">Manage</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

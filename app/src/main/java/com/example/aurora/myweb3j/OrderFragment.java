@@ -1,25 +1,25 @@
 package com.example.aurora.myweb3j;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
+
+import com.example.aurora.myweb3j.util.Order;
 
 import org.web3j.abi.datatypes.Utf8String;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,11 +27,11 @@ import java.util.concurrent.ExecutionException;
 
 import static com.example.aurora.myweb3j.MainActivity.order_string;
 
-public class MyFragment2 extends android.support.v4.app.Fragment {
+public class OrderFragment extends android.support.v4.app.Fragment {
 
-    public MyFragment2() {
+    public OrderFragment() {
     }
-    private order[] orders = new order[4];
+    private Order[] Orders = new Order[4];
     private int[] imageIds = new int[]
             { R.drawable.tab_menu_better , R.drawable.tab_menu_channel
                     , R.drawable.tab_menu_message, R.drawable.tab_menu_better};
@@ -40,31 +40,31 @@ public class MyFragment2 extends android.support.v4.app.Fragment {
         final View view = inflater.inflate(R.layout.fragment_order,container,false);
         for(int i=0;i<4;i++)
         {
-            orders[i]=new order();
+            Orders[i]=new Order();
         }
         int order_number = 0;
 
         for(int i = 0; i<4; i++){
-            orders[i]=new order();}
+            Orders[i]=new Order();}
         Log.d("Return", "");
         while(order_string.indexOf('%')>0){
 
             String temp = order_string.substring(0, order_string.indexOf('%'));
-            Log.d("order "+order_number, temp);
+            Log.d("Order "+order_number, temp);
 
-            orders[order_number].id = Integer.parseInt((temp.substring(0, temp.indexOf('*'))).substring(1));
+            Orders[order_number].id = Integer.parseInt((temp.substring(0, temp.indexOf('*'))).substring(1));
             temp=temp.substring(temp.indexOf('*')+1);
-            orders[order_number].parking_no = Integer.parseInt((temp.substring(0, temp.indexOf('*'))).substring(1));
+            Orders[order_number].parking_no = Integer.parseInt((temp.substring(0, temp.indexOf('*'))).substring(1));
             temp=temp.substring(temp.indexOf('*')+1);
-            orders[order_number].state = Integer.parseInt((temp.substring(0, temp.indexOf('*'))).substring(1,2));
+            Orders[order_number].state = Integer.parseInt((temp.substring(0, temp.indexOf('*'))).substring(1,2));
             temp=temp.substring(temp.indexOf('*')+1);
-            orders[order_number].price = (Double.parseDouble(temp.substring(0, temp.indexOf('*')).substring(1)))/1000000000000000000d;
+            Orders[order_number].price = (Double.parseDouble(temp.substring(0, temp.indexOf('*')).substring(1)))/1000000000000000000d;
             temp=temp.substring(temp.indexOf('*')+1);
-            orders[order_number].date = Long.parseLong(temp.substring(0, temp.indexOf('*')).substring(1));
+            Orders[order_number].date = Long.parseLong(temp.substring(0, temp.indexOf('*')).substring(1));
             temp=temp.substring(temp.indexOf('*')+1);
-            orders[order_number].hour_new = temp;
+            Orders[order_number].hour_new = temp;
 
-            Log.d("Order detail: "," id:"+orders[order_number].id+" parking no:"+orders[order_number].parking_no+" state:"+orders[order_number].state+" price:"+orders[order_number].price+" date:"+orders[order_number].date+" new hour:"+orders[order_number].hour_new);
+            Log.d("Order detail: "," id:"+ Orders[order_number].id+" parking no:"+ Orders[order_number].parking_no+" state:"+ Orders[order_number].state+" price:"+ Orders[order_number].price+" date:"+ Orders[order_number].date+" new hour:"+ Orders[order_number].hour_new);
 
             order_string = order_string.substring(order_string.indexOf('%') + 1);
 
@@ -83,8 +83,8 @@ public class MyFragment2 extends android.support.v4.app.Fragment {
                 {
                     Map<String, Object> listItem = new HashMap<String, Object>();
                     listItem.put("header", imageIds[i]);
-                    listItem.put("order_date", orders[i].date);
-                    listItem.put("order_price", orders[i].price);
+                    listItem.put("order_date", Orders[i].date);
+                    listItem.put("order_price", Orders[i].price);
                     listItems.add(listItem);
                 }
                 SimpleAdapter simpleAdapter = new SimpleAdapter(getActivity().getApplicationContext(), listItems,
@@ -104,7 +104,7 @@ public class MyFragment2 extends android.support.v4.app.Fragment {
                         //jump to NewOrderActivity
                         Intent intent = new Intent(getActivity().getApplicationContext(), ViewOrderActivity.class);
                         Bundle bundle=new Bundle();
-                        bundle.putSerializable("order", orders[position]);
+                        bundle.putSerializable("Order", Orders[position]);
                         intent.putExtras(bundle);
                         startActivity(intent);
                     }
@@ -152,31 +152,31 @@ public class MyFragment2 extends android.support.v4.app.Fragment {
 
                         for(int i=0;i<4;i++)
                         {
-                            orders[i]=new order();
+                            Orders[i]=new Order();
                         }
                         int order_number = 0;
 
                         for(int i = 0; i<4; i++){
-                            orders[i]=new order();}
+                            Orders[i]=new Order();}
                         Log.d("Return", "");
                         while(order_string.indexOf('%')>0){
 
                             String temp = order_string.substring(0, order_string.indexOf('%'));
-                            Log.d("order "+order_number, temp);
+                            Log.d("Order "+order_number, temp);
 
-                            orders[order_number].id = Integer.parseInt((temp.substring(0, temp.indexOf('*'))).substring(1));
+                            Orders[order_number].id = Integer.parseInt((temp.substring(0, temp.indexOf('*'))).substring(1));
                             temp=temp.substring(temp.indexOf('*')+1);
-                            orders[order_number].parking_no = Integer.parseInt((temp.substring(0, temp.indexOf('*'))).substring(1));
+                            Orders[order_number].parking_no = Integer.parseInt((temp.substring(0, temp.indexOf('*'))).substring(1));
                             temp=temp.substring(temp.indexOf('*')+1);
-                            orders[order_number].state = Integer.parseInt((temp.substring(0, temp.indexOf('*'))).substring(1,2));
+                            Orders[order_number].state = Integer.parseInt((temp.substring(0, temp.indexOf('*'))).substring(1,2));
                             temp=temp.substring(temp.indexOf('*')+1);
-                            orders[order_number].price = (Double.parseDouble(temp.substring(0, temp.indexOf('*')).substring(1)))/1000000000000000000d;
+                            Orders[order_number].price = (Double.parseDouble(temp.substring(0, temp.indexOf('*')).substring(1)))/1000000000000000000d;
                             temp=temp.substring(temp.indexOf('*')+1);
-                            orders[order_number].date = Long.parseLong(temp.substring(0, temp.indexOf('*')).substring(1));
+                            Orders[order_number].date = Long.parseLong(temp.substring(0, temp.indexOf('*')).substring(1));
                             temp=temp.substring(temp.indexOf('*')+1);
-                            orders[order_number].hour_new = temp;
+                            Orders[order_number].hour_new = temp;
 
-                            Log.d("Order detail: "," id:"+orders[order_number].id+" parking no:"+orders[order_number].parking_no+" state:"+orders[order_number].state+" price:"+orders[order_number].price+" date:"+orders[order_number].date+" new hour:"+orders[order_number].hour_new);
+                            Log.d("Order detail: "," id:"+ Orders[order_number].id+" parking no:"+ Orders[order_number].parking_no+" state:"+ Orders[order_number].state+" price:"+ Orders[order_number].price+" date:"+ Orders[order_number].date+" new hour:"+ Orders[order_number].hour_new);
 
                             order_string = order_string.substring(order_string.indexOf('%') + 1);
 
@@ -195,8 +195,9 @@ public class MyFragment2 extends android.support.v4.app.Fragment {
                                 {
                                     Map<String, Object> listItem = new HashMap<String, Object>();
                                     listItem.put("header", imageIds[i]);
-                                    listItem.put("order_date", orders[i].date);
-                                    listItem.put("order_price", orders[i].price);
+                                    long timestamp = Long.parseLong(Orders[i].date+"") * 1000L;
+                                    listItem.put("order_date", getDate(timestamp));
+                                    listItem.put("order_price", Orders[i].price);
                                     listItems.add(listItem);
                                 }
                                 SimpleAdapter simpleAdapter = new SimpleAdapter(getActivity().getApplicationContext(), listItems,
@@ -216,7 +217,7 @@ public class MyFragment2 extends android.support.v4.app.Fragment {
                                         //jump to NewOrderActivity
                                         Intent intent = new Intent(getActivity().getApplicationContext(), ViewOrderActivity.class);
                                         Bundle bundle=new Bundle();
-                                        bundle.putSerializable("order", orders[position]);
+                                        bundle.putSerializable("Order", Orders[position]);
                                         intent.putExtras(bundle);
                                         startActivity(intent);
                                     }
@@ -240,6 +241,17 @@ public class MyFragment2 extends android.support.v4.app.Fragment {
             }
         });
         return view;
+    }
+    private String getDate(long timeStamp){
+
+        try{
+            DateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+            Date netDate = (new Date(timeStamp));
+            return sdf.format(netDate);
+        }
+        catch(Exception ex){
+            return "xx";
+        }
     }
 
 }

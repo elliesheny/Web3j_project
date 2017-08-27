@@ -104,36 +104,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button_update"
+        android:background="@color/text_yellow"
         />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
 
-        <TextView
-            android:text="Charge:"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/bg_black"
-            android:textSize="20sp"/>
-
-        <EditText
-            android:id="@+id/edit_usercharge"
-            android:layout_weight="2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textColorHint="@color/text_gray"
-            android:textColor="@color/bg_black"
-            android:textSize="15sp"
-            android:inputType="numberDecimal"
-            />
-    </LinearLayout>
     <Button
         android:text="Charge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/text_margin"
         android:id="@+id/button_charge"
+        android:background="@color/text_yellow"
+
         />
 
 </LinearLayout>

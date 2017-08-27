@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/text_light_yellow"
     tools:context="com.example.aurora.myweb3j.LoginActivity">
     <Button
         android:text="Login"
@@ -14,7 +15,8 @@
         android:layout_marginRight="15dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="149dp" />
+        android:layout_marginTop="149dp"
+        android:background="@color/text_yellow"/>
 
     <Button
         android:text="Register"
@@ -24,5 +26,6 @@
         android:onClick="onRegister"
         android:layout_centerVertical="true"
         android:layout_alignStart="@+id/button_login"
-        android:layout_alignEnd="@+id/button_login" />
+        android:layout_alignEnd="@+id/button_login"
+        android:background="@color/text_yellow"/>
 </RelativeLayout>

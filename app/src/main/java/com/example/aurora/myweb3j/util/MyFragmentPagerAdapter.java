@@ -1,9 +1,15 @@
-package com.example.aurora.myweb3j;
+package com.example.aurora.myweb3j.util;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
+
+import com.example.aurora.myweb3j.MainActivity;
+import com.example.aurora.myweb3j.FindFragment;
+import com.example.aurora.myweb3j.OrderFragment;
+import com.example.aurora.myweb3j.MyAccountFragment;
+import com.example.aurora.myweb3j.ManageFragment;
 
 /**
  * Created by yuan.
@@ -11,18 +17,18 @@ import android.view.ViewGroup;
 public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
     private final int PAGER_COUNT = 4;
-    private MyFragment1 myFragment1 = null;
-    private MyFragment2 myFragment2 = null;
-    private MyFragment3 myFragment3 = null;
-    private MyFragment4 myFragment4 = null;
+    private FindFragment findFragment = null;
+    private OrderFragment orderFragment = null;
+    private MyAccountFragment myAccountFragment = null;
+    private ManageFragment manageFragment = null;
 
 
     public MyFragmentPagerAdapter(FragmentManager fm) {
         super(fm);
-        myFragment1 = new MyFragment1();
-        myFragment2 = new MyFragment2();
-        myFragment3 = new MyFragment3();
-        myFragment4 = new MyFragment4();
+        findFragment = new FindFragment();
+        orderFragment = new OrderFragment();
+        myAccountFragment = new MyAccountFragment();
+        manageFragment = new ManageFragment();
     }
 
 
@@ -47,16 +53,16 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
         Fragment fragment = null;
         switch (position) {
             case MainActivity.PAGE_ONE:
-                fragment = myFragment1;
+                fragment = findFragment;
                 break;
             case MainActivity.PAGE_TWO:
-                fragment = myFragment2;
+                fragment = orderFragment;
                 break;
             case MainActivity.PAGE_THREE:
-                fragment = myFragment3;
+                fragment = myAccountFragment;
                 break;
             case MainActivity.PAGE_FOUR:
-                fragment = myFragment4;
+                fragment = manageFragment;
                 break;
         }
         return fragment;

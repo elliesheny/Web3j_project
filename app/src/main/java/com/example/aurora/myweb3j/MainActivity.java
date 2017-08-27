@@ -9,12 +9,11 @@ import android.widget.TextView;
 
 import com.example.aurora.myweb3j.contract.ManageOrder;
 import com.example.aurora.myweb3j.util.Alice;
+import com.example.aurora.myweb3j.util.MyFragmentPagerAdapter;
 import com.example.aurora.myweb3j.util.Web3jConstants;
 import com.example.aurora.myweb3j.util.Web3jUtils;
 
-import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.Utf8String;
-import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.protocol.core.methods.request.Transaction;
 import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;

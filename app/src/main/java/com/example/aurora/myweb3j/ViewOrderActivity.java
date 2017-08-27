@@ -7,47 +7,28 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.aurora.myweb3j.util.Alice;
-import com.example.aurora.myweb3j.util.Web3jConstants;
+import com.example.aurora.myweb3j.util.Order;
 
-import org.web3j.abi.datatypes.Utf8String;
 import org.web3j.abi.datatypes.generated.Uint256;
-import org.web3j.crypto.Credentials;
-import org.web3j.crypto.TransactionEncoder;
-import org.web3j.protocol.core.methods.request.RawTransaction;
-import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
-import org.web3j.utils.Numeric;
 
-import java.math.BigInteger;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
-import java.util.concurrent.ExecutionException;
 
 import static com.example.aurora.myweb3j.MainActivity.contract;
 
 public class ViewOrderActivity extends AppCompatActivity{
-    private order order_selected= new order();
+    private Order order_selected= new Order();
     private Context mContext;
     private BaseAdapter myAdadpter = null;
     private Button btn_abort;
@@ -58,7 +39,7 @@ public class ViewOrderActivity extends AppCompatActivity{
         setContentView(R.layout.activity_view_order);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         Intent intent = getIntent();
-        order_selected=(order)intent.getSerializableExtra("order");
+        order_selected=(Order)intent.getSerializableExtra("Order");
         toolbar.setTitle("Order id: "+ order_selected.id);
         setSupportActionBar(toolbar);
         setSupportActionBar(toolbar);
