@@ -22,6 +22,8 @@ import java.math.BigInteger;
 import java.util.concurrent.ExecutionException;
 
 import static com.example.aurora.myweb3j.LoginActivity.web3j;
+import static com.example.aurora.myweb3j.RegisterActivity.ADDRESS;
+import static com.example.aurora.myweb3j.RegisterActivity.CREDENTIALS;
 
 public class MainActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener,
         ViewPager.OnPageChangeListener {
@@ -57,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         //user_me=(user)intent.getSerializableExtra("user_me");
         BigInteger amountWei = new BigInteger("500000000000000000");
         try {
-            String txHash = MainActivity.transferWei(Web3jUtils.getCoinbase(), Alice.ADDRESS, amountWei);
+            String txHash = MainActivity.transferWei(Web3jUtils.getCoinbase(), ADDRESS, amountWei);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -152,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         System.out.println("// Deploy contract");
 
         contract = ManageOrder
-                .load(Web3jConstants.CONTRACT_ADDRESS, web3j, Alice.CREDENTIALS, Web3jConstants.GAS_PRICE, Web3jConstants.GAS_LIMIT_ETHER_TX.multiply(BigInteger.valueOf(2)));
+                .load(Web3jConstants.CONTRACT_ADDRESS, web3j, CREDENTIALS, Web3jConstants.GAS_PRICE, Web3jConstants.GAS_LIMIT_ETHER_TX.multiply(BigInteger.valueOf(2)));
 
         String contractAddress = contract.getContractAddress();
         System.out.println("Contract address: " + contractAddress);

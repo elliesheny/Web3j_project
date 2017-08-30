@@ -44,6 +44,8 @@ import java.util.Calendar;
 import java.util.concurrent.ExecutionException;
 
 import static com.example.aurora.myweb3j.MainActivity.contract;
+import static com.example.aurora.myweb3j.RegisterActivity.ADDRESS;
+import static com.example.aurora.myweb3j.RegisterActivity.CREDENTIALS;
 
 public class NewOrderActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener,CompoundButton.OnCheckedChangeListener {
     private Seller seller_selected= new Seller();
@@ -288,8 +290,8 @@ public class NewOrderActivity extends AppCompatActivity implements AdapterView.O
      * Most complex transfer mechanism, but offers the highest flexibility.
      */
     public void testCreateSignAndSendTransaction(BigInteger amountWei) throws Exception {
-        String from = Alice.ADDRESS;
-        Credentials credentials = Alice.CREDENTIALS;
+        String from = ADDRESS;
+        Credentials credentials = CREDENTIALS;
         BigInteger nonce = MainActivity.getNonce(from);
 //      String to = Web3jConstants.CONTRACT_ADDRESS;
 

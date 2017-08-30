@@ -7,7 +7,7 @@ import java.math.BigInteger;
  */
 
 public class Web3jConstants {
-    public static final String CLIENT_IP = "10.98.7.36";//"10.97.174.70";
+    public static final String CLIENT_IP = "10.97.55.72";//"10.97.174.70";
     public static final String CLIENT_PORT = "8545";
 
     // see https://www.reddit.com/r/ethereum/comments/5g8ia6/attention_miners_we_recommend_raising_gas_limit/
@@ -19,7 +19,7 @@ public class Web3jConstants {
 
     public static final int CONFIRMATION_ATTEMPTS = 40;
     public static final int SLEEP_DURATION = 1000;
-    public static final String CONTRACT_ADDRESS = "0xb331015e4b9e67260b1357e7b47c8888dde6492a";
+    public static final String CONTRACT_ADDRESS = "0xce8244d9ac007cf8086a98133ec1b5e69d4bcb66";
 
     // file name extensions for smart contracts
     public static final String EXT_SOLIDITY = "sol";

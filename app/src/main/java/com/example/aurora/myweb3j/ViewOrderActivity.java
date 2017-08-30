@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.BaseAdapter;
@@ -16,16 +17,26 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.aurora.myweb3j.util.Alice;
 import com.example.aurora.myweb3j.util.Order;
+import com.example.aurora.myweb3j.util.Web3jConstants;
 
 import org.web3j.abi.datatypes.generated.Uint256;
+import org.web3j.crypto.Credentials;
+import org.web3j.crypto.TransactionEncoder;
+import org.web3j.protocol.core.methods.request.RawTransaction;
+import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
+import org.web3j.utils.Numeric;
 
+import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static com.example.aurora.myweb3j.MainActivity.contract;
+import static com.example.aurora.myweb3j.RegisterActivity.ADDRESS;
+import static com.example.aurora.myweb3j.RegisterActivity.CREDENTIALS;
 
 public class ViewOrderActivity extends AppCompatActivity{
     private Order order_selected= new Order();
@@ -113,6 +124,15 @@ public class ViewOrderActivity extends AppCompatActivity{
     }
 
     public void abort_order(View view) throws Exception {
+        BigInteger amountWei = new BigInteger("10000000000000000").multiply(BigInteger.valueOf((long) order_selected.price*20));
+
+            try {
+                testCreateSignAndSendTransaction(amountWei);
+                Log.d("Debug","About to Transfer: " + amountWei);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         TransactionReceipt transferreceipt = contract.abortOrder(new Uint256(order_selected.id)).get();
         System.out.println("Abort hash: " +transferreceipt.getTransactionHash());
         if(!transferreceipt.getTransactionHash().isEmpty()){
@@ -140,5 +160,41 @@ public class ViewOrderActivity extends AppCompatActivity{
                     finish();
                 }});
         }
+    }
+    public void testCreateSignAndSendTransaction(BigInteger amountWei) throws Exception {
+        String from = ADDRESS;
+        Credentials credentials = CREDENTIALS;
+        BigInteger nonce = MainActivity.getNonce(from);
+//      String to = Web3jConstants.CONTRACT_ADDRESS;
+
+        // funds can be transferred out of the account
+        BigInteger txFees = Web3jConstants.GAS_LIMIT_ETHER_TX.multiply(Web3jConstants.GAS_PRICE);
+        RawTransaction txRaw = RawTransaction
+                .createEtherTransaction(
+                        nonce,
+                        Web3jConstants.GAS_PRICE,
+                        Web3jConstants.GAS_LIMIT_ETHER_TX,
+                        Web3jConstants.CONTRACT_ADDRESS,
+                        amountWei);
+
+        // sign raw transaction using the sender's credentials
+        byte[] txSignedBytes = TransactionEncoder.signMessage(txRaw, credentials);
+        String txSigned = Numeric.toHexString(txSignedBytes);
+
+        // send the signed transaction to the ethereum client
+        EthSendTransaction ethSendTx = LoginActivity.web3j
+                .ethSendRawTransaction(txSigned)
+                .sendAsync()
+                .get();
+
+        //Response.Error error = ethSendTx.getError();
+        String txHash = ethSendTx.getTransactionHash();
+        //assertNull(error);
+        //assertFalse(txHash.isEmpty());
+
+        MainActivity.waitForReceipt(txHash);
+
+
+
     }
 }

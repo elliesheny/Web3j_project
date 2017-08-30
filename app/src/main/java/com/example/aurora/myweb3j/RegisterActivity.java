@@ -16,6 +16,7 @@ import com.example.aurora.myweb3j.util.Web3jUtils;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.Utf8String;
 import org.web3j.abi.datatypes.generated.Uint256;
+import org.web3j.crypto.Credentials;
 import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Keys;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
@@ -32,7 +33,9 @@ import java.util.concurrent.ExecutionException;
 public class RegisterActivity extends AppCompatActivity {
     static final String ERROR = "Error";
     ManageOrder contract = null;
-
+    static ECKeyPair KEY_PAIR =null;
+    public static Credentials CREDENTIALS =null;
+    public static String ADDRESS = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +62,13 @@ public class RegisterActivity extends AppCompatActivity {
         BigInteger privateKey = keyPair[0].getPrivateKey();
         Alice.PRIVATE_KEY = Numeric.toHexStringWithPrefix(privateKey);
         saveFile(Alice.PUBLIC_KEY, "public_key.pem");
+        Log.d("Public",Alice.PUBLIC_KEY);
         saveFile(Alice.PRIVATE_KEY, "private_key.pem");
+        KEY_PAIR = new ECKeyPair(Numeric.toBigInt(Alice.PRIVATE_KEY), Numeric.toBigInt(Alice.PUBLIC_KEY));
+
+        CREDENTIALS = Credentials.create(KEY_PAIR);
+        ADDRESS = CREDENTIALS.getAddress();
+
     }
 
     public void onRegister_ok(View view) {
@@ -72,18 +81,20 @@ public class RegisterActivity extends AppCompatActivity {
 
         final Intent intent_main2 = new Intent(getApplicationContext(), MainActivity.class);
         final Intent intent_register = new Intent(getApplicationContext(), RegisterActivity.class);
+
         if((fileExistance("public_key.pem"))&&(fileExistance("private_key.pem"))){
+            BigInteger amountWei = new BigInteger("500000000000000000");
+            try {
+                String txHash = MainActivity.transferWei(Web3jUtils.getCoinbase(), ADDRESS, amountWei);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             try {
                 ManageOrder manageOrder = loadContract();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            BigInteger amountWei = new BigInteger("500000000000000000");
-            try {
-                String txHash = MainActivity.transferWei(Web3jUtils.getCoinbase(), Alice.ADDRESS, amountWei);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
 
             TransactionReceipt result = null;
             try {
@@ -124,7 +135,7 @@ public class RegisterActivity extends AppCompatActivity {
         System.out.println("// Deploy contract");
 
         contract = ManageOrder
-                .load(Web3jConstants.CONTRACT_ADDRESS, LoginActivity.web3j, Alice.CREDENTIALS, Web3jConstants.GAS_PRICE, Web3jConstants.GAS_LIMIT_ETHER_TX.multiply(BigInteger.valueOf(2)));
+                .load(Web3jConstants.CONTRACT_ADDRESS, LoginActivity.web3j, CREDENTIALS, Web3jConstants.GAS_PRICE, Web3jConstants.GAS_LIMIT_ETHER_TX.multiply(BigInteger.valueOf(2)));
 
         String contractAddress = contract.getContractAddress();
         System.out.println("Contract address: " + contractAddress);

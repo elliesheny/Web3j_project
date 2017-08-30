@@ -22,6 +22,8 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.concurrent.ExecutionException;
 
+import static com.example.aurora.myweb3j.RegisterActivity.ADDRESS;
+
 
 public class MyAccountFragment extends android.support.v4.app.Fragment {
     public MyAccountFragment() {
@@ -31,8 +33,8 @@ public class MyAccountFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_my_account,container,false);
         EditText edit_useradd = (EditText) view.findViewById(R.id.edit_useradd);
-        edit_useradd.setText(Alice.ADDRESS+"");
-        Log.d("Address: ",Alice.ADDRESS);
+        edit_useradd.setText(ADDRESS+"");
+        Log.d("Address: ",ADDRESS);
         edit_useradd.setEnabled(false);
 
 
@@ -61,7 +63,7 @@ public class MyAccountFragment extends android.support.v4.app.Fragment {
         BigDecimal balance_in_ether = null;
 
         try {
-            balance_in_ether = getBalanceEther(LoginActivity.web3j, Alice.ADDRESS);
+            balance_in_ether = getBalanceEther(LoginActivity.web3j, ADDRESS);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -82,7 +84,7 @@ public class MyAccountFragment extends android.support.v4.app.Fragment {
                 BigDecimal balance_in_ether = null;
 
                 try {
-                    balance_in_ether = getBalanceEther(LoginActivity.web3j, Alice.ADDRESS);
+                    balance_in_ether = getBalanceEther(LoginActivity.web3j, ADDRESS);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
@@ -125,7 +127,7 @@ public class MyAccountFragment extends android.support.v4.app.Fragment {
             {
                 BigInteger amountWei = new BigInteger("500000000000000000");
                 try {
-                    MainActivity.transferWei(Web3jUtils.getCoinbase(), Alice.ADDRESS, amountWei);
+                    MainActivity.transferWei(Web3jUtils.getCoinbase(), ADDRESS, amountWei);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
