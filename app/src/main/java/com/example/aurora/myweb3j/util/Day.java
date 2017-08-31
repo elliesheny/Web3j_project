@@ -4,6 +4,7 @@ package com.example.aurora.myweb3j.util;
  * Created by yuan.
  */
 
+//the day adapter
 public class Day {
     private int hIcon;
     private String hDay;

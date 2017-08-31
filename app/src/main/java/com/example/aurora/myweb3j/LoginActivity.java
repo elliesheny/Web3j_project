@@ -22,6 +22,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.concurrent.ExecutionException;
 
+//user login activity
 public class LoginActivity extends AppCompatActivity{
     static public Web3j web3j = null;
     static String clientUrl = null;
@@ -31,6 +32,8 @@ public class LoginActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         String TAG = "Return";
+
+        //connect to the ethereum client node
         Start_Connect();
         // show client details
         Web3ClientVersion client = null;
@@ -49,36 +52,46 @@ public class LoginActivity extends AppCompatActivity{
 
     }
 
+    //when clicking "login" button
     public void onLogin(View view){
+        //read the key pairs from the internal file
         Alice.PUBLIC_KEY = readFile("public_key.pem");
         Alice.PRIVATE_KEY = readFile("private_key.pem");
 
-        //Toast.makeText(getApplicationContext(), Alice.PUBLIC_KEY, Toast.LENGTH_LONG).show();
+        //if the file exists, jump to the main activity
         if((fileExistance("public_key.pem"))&&(fileExistance("private_key.pem"))){
             final Intent intent_main = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent_main);
         }else{
+            //if not exist, guide the user to the register interface
             Toast.makeText(getApplicationContext(), "No Record. Please register.", Toast.LENGTH_LONG).show();
         }
 
     }
+
+    //when uer clicking the "register" button
     public void onRegister(View view){
 
         final Intent intent_register = new Intent(getApplicationContext(), RegisterActivity.class);
         startActivity(intent_register);
 
     }
+
+    //connect the moible device to the ethereum client node
     public void Start_Connect() {
         clientUrl = argsToUrl();
         web3j = Web3jFactory.build(new HttpService(clientUrl));
     }
 
+    //connection port and ip
     public String argsToUrl() {
         String ip = Web3jConstants.CLIENT_IP;
         String port = Web3jConstants.CLIENT_PORT;
 
         return String.format("http://%s:%s", ip, port);
     }
+
+    //get the coinbase of the ethereum wallet
     public static EthCoinbase getCoinbase(Web3j web3j) throws InterruptedException, ExecutionException {
         return web3j
                 .ethCoinbase()
@@ -87,7 +100,7 @@ public class LoginActivity extends AppCompatActivity{
     }
 
 
-
+    //read the file from the internal database
     public String readFile(String filename) {
         FileInputStream inputStream;
         try
@@ -105,6 +118,8 @@ public class LoginActivity extends AppCompatActivity{
         }
 
     }
+
+    //check whether the file exists or not
     public boolean fileExistance(String fname){
         File file = getBaseContext().getFileStreamPath(fname);
         return file.exists();

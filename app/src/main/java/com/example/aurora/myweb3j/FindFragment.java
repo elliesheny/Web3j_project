@@ -18,7 +18,7 @@ import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
 import java.util.concurrent.ExecutionException;
 
-
+//fragment tab
 public class FindFragment extends Fragment {
 
     public FindFragment() {
@@ -34,6 +34,7 @@ public class FindFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_find, container, false);
         Button button = (Button) view.findViewById(R.id.search_address);
 
+        //find the corresponding parking lot with a parking code
         button.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -41,6 +42,8 @@ public class FindFragment extends Fragment {
             {
                 EditText editText = (EditText) getView().findViewById(R.id.find_parking);
                 int parking_no = Integer.parseInt(editText.getText().toString());
+
+                //get the specified  parking information
                 TransactionReceipt result_receipt = null;
                 Utf8String result = null;
                 try {
@@ -52,8 +55,11 @@ public class FindFragment extends Fragment {
                     e.printStackTrace();
                 }
                 System.out.println("Parking Info: " +result.getValue());
+
+                //decode the responce string
                 String coded_result = result.getValue().substring(0, result.getValue().indexOf('%'));
                 Seller find_seller=new Seller();
+                //save the information to the seller class
                 find_seller.id = parking_no;
                 String temp=coded_result.substring(0, coded_result.indexOf('*'));
                 find_seller.name=temp;
@@ -68,7 +74,10 @@ public class FindFragment extends Fragment {
                 coded_result=coded_result.substring(coded_result.indexOf('*')+1);
 
                 temp=coded_result.substring(0, coded_result.indexOf('*'));
+
+                //get the available hour
                 Log.d("hours",temp);
+                //separate the string to three days
                 find_seller.available_date_1=temp.substring(0, 24);
                 find_seller.available_date_2=temp.substring(24, 48);
                 find_seller.available_date_3=temp.substring(48, 72);
@@ -76,9 +85,10 @@ public class FindFragment extends Fragment {
                 coded_result=coded_result.substring(coded_result.indexOf('*')+1);
                 find_seller.parking_add=coded_result.substring(0, coded_result.indexOf('*'));
 
-                //find_seller.setseller(parking_no,find_seller.name,find_seller.phone,find_seller.post_code,find_seller.parking_add,find_seller.avaliable_date_1,find_seller.avaliable_date_2,find_seller.avaliable_date_3);
+                //jump to the newOrder activity
                 Intent intent = new Intent(getActivity().getApplicationContext(), NewOrderActivity.class);
                 Bundle bundle=new Bundle();
+                //pass the seller class to the activity
                 bundle.putSerializable("Seller", find_seller);
                 intent.putExtras(bundle);
                 startActivity(intent);

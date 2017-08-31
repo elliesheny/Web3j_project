@@ -26,9 +26,7 @@ import static com.example.aurora.myweb3j.LoginActivity.web3j;
 
 public class Web3jUtils {
 
-    /**
-     * Returns the balance (in Wei) of the specified account address.
-     */
+    //returns the balance
     public static BigInteger getBalanceWei(Web3j web3j, String address) throws InterruptedException, ExecutionException {
         EthGetBalance balance = web3j
                 .ethGetBalance(address, DefaultBlockParameterName.LATEST)
@@ -39,12 +37,7 @@ public class Web3jUtils {
     }
 
 
-    /**
-     * Waits for the receipt for the transaction specified by the provided tx hash.
-     * Makes 40 attempts (waiting 1 sec. inbetween attempts) to get the receipt object.
-     * In the happy case the tx receipt object is returned.
-     * Otherwise, a runtime exception is thrown.
-     */
+    //send the signed transaction and wair for receipt
     public static TransactionReceipt waitForReceipt(Web3j web3j, String transactionHash)
             throws Exception
     {
@@ -66,9 +59,7 @@ public class Web3jUtils {
         return receipt.get();
     }
 
-    /**
-     * Returns the TransactionRecipt for the specified tx hash as an optional.
-     */
+    //return the receipt of the transaction
     public static Optional<TransactionReceipt> getReceipt(Web3j web3j, String transactionHash)
             throws Exception
     {
@@ -81,9 +72,7 @@ public class Web3jUtils {
         return receipt_now;
     }
 
-    /**
-     * Return the nonce (tx count) for the specified address.
-     */
+    //get the nonce of the transaction
     public static BigInteger getNonce(Web3j web3j, String address) throws InterruptedException, ExecutionException {
         EthGetTransactionCount ethGetTransactionCount =
                 web3j.ethGetTransactionCount(address, DefaultBlockParameterName.LATEST).sendAsync().get();
@@ -91,9 +80,12 @@ public class Web3jUtils {
         return ethGetTransactionCount.getTransactionCount();
     }
 
+    //get the coinbase of the ethereum wallet
     static public String getCoinbase() {
         return getAccount(0);
     }
+
+    //get the account from web3j
     static String getAccount(int i) {
         try {
             EthAccounts accountsResponse = web3j.ethAccounts().sendAsync().get();

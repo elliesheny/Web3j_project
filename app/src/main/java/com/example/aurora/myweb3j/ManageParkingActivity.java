@@ -33,6 +33,7 @@ import java.util.concurrent.ExecutionException;
 
 import static com.example.aurora.myweb3j.MainActivity.contract;
 
+//select the occupied hour for the parking lot
 public class ManageParkingActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener,CompoundButton.OnCheckedChangeListener{
     private byte[] hour_buffer = new byte[24];
     private CheckBox[] check_hour = new CheckBox[24];
@@ -53,6 +54,7 @@ public class ManageParkingActivity extends AppCompatActivity implements AdapterV
         mData = new ArrayList<Day>();
         bindViews();
 
+        //get the information of user's parking lot
         try {
             result_parking = MainActivity.contract.numParking().get();
         } catch (InterruptedException e) {
@@ -61,13 +63,15 @@ public class ManageParkingActivity extends AppCompatActivity implements AdapterV
             e.printStackTrace();
         }
         System.out.println("Parking Info: " +result_parking.getValue());
+
+        //if the user hasn't create any parking lot, guide the user to create one
         if((result_parking+"").isEmpty()){
             Toast.makeText(getApplicationContext(), "Please new a parking area first.", Toast.LENGTH_LONG).show();
 
         }else {
-
+            //if the user has created one, save the information to a seller class
             String coded_result = result_parking.getValue().substring(0, result_parking.getValue().indexOf('%'));
-
+            //decode the string responce
             String temp = coded_result.substring(0, coded_result.indexOf('*'));
             me_seller.name = temp;
             coded_result = coded_result.substring(coded_result.indexOf('*') + 1);
@@ -82,6 +86,7 @@ public class ManageParkingActivity extends AppCompatActivity implements AdapterV
             coded_result = coded_result.substring(coded_result.indexOf('*') + 1);
 
             temp = coded_result.substring(0, coded_result.indexOf('*'));
+            //separate the available hours to hours in the next three days
             Log.d("hours", temp);
             me_seller.available_date_1 = temp.substring(0, 24);
             me_seller.available_date_2 = temp.substring(24, 48);
@@ -90,12 +95,11 @@ public class ManageParkingActivity extends AppCompatActivity implements AdapterV
             coded_result = coded_result.substring(coded_result.indexOf('*') + 1);
             me_seller.parking_add = coded_result.substring(0, coded_result.indexOf('*'));
             coded_result = coded_result.substring(coded_result.indexOf('*') + 1);
-            //coded_result = coded_result.substring(0, coded_result.indexOf('%'));
             me_seller.id = Integer.parseInt(coded_result.substring(1));
             Log.d("result", coded_result.substring(1));
-
+            //save the available hour in one day
             hour_buffer = me_seller.available_date_1.getBytes();
-
+            //initiate the state of the check box
             for (int i = 0; i < check_hour.length; i++) {
                 String strcheckID = "checkbox" + i;
                 checkbox_id[i] = getResources().getIdentifier(strcheckID, "id", "com.example.aurora.myweb3j");
@@ -113,14 +117,18 @@ public class ManageParkingActivity extends AppCompatActivity implements AdapterV
 
 
     }
+
+    //when one item in the spinner is selected
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch (parent.getId()){
             case R.id.spin_day:
+                //save the selected day
                 day_selected = ""+position;
                 if(!result_parking.getValue().isEmpty()){
                     if(position==0)
                     {
+                        //set the checkbox status in one day
                         hour_buffer= me_seller.available_date_1.getBytes();
                         for(int i = 0; i<check_hour.length; i++) {
                             String strcheckID = "checkbox" + i;
@@ -137,6 +145,7 @@ public class ManageParkingActivity extends AppCompatActivity implements AdapterV
                     }
                     else if(position==1)
                     {
+                        //if the second day is selected
                         hour_buffer= me_seller.available_date_2.getBytes();
                         for(int i = 0; i<check_hour.length; i++) {
                             String strcheckID = "checkbox" + i;
@@ -152,6 +161,7 @@ public class ManageParkingActivity extends AppCompatActivity implements AdapterV
                     }
                     else if(position==2)
                     {
+                        //the third day is selected
                         hour_buffer= me_seller.available_date_3.getBytes();
                         for(int i = 0; i<check_hour.length; i++) {
                             String strcheckID = "checkbox" + i;
@@ -169,19 +179,27 @@ public class ManageParkingActivity extends AppCompatActivity implements AdapterV
                 }
         }
     }
+
+    //bind the days to the it day spinner
     private void bindViews() {
         spin_day = (Spinner) findViewById(R.id.spin_day);
+        //set the display format of the date
         DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy");
+        //get the today's date
         Calendar today = Calendar.getInstance();
         String date_1 = df.format(today.getTime());
+        //get the next day
         today.add(today.DATE,1);
         String date_2 = df.format(today.getTime());
+        //get the third day
         today.add(today.DATE,1);
         String date_3 = df.format(today.getTime());
+        //add the day to the spinner item
         mData.add(new Day(R.drawable.day,date_1));
         mData.add(new Day(R.drawable.day,date_2));
         mData.add(new Day(R.drawable.day,date_3));
 
+        //set the adapter
         myAdadpter = new MyAdapter<Day>(mData,R.layout.item_spin_day) {
             @Override
             public void bindView(ViewHolder holder, Day obj) {
@@ -202,6 +220,8 @@ public class ManageParkingActivity extends AppCompatActivity implements AdapterV
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
     }
+
+    //change the toast interface
     public void midToast(String str, int showTime)
     {
         Toast toast = Toast.makeText(getApplicationContext(), str, showTime);
@@ -216,11 +236,15 @@ public class ManageParkingActivity extends AppCompatActivity implements AdapterV
         v.setTextColor(getResources().getColor(R.color.text_yellow));     //set the color
         toast.show();
     }
+
+    //when "book" button is clicked
     @Override
     public void onClick(View v) {
         int checked_no = 0;
         hour_selected = "";
         hour_new = "";
+
+        //count the booking hour slots
         for(int i = 0; i<check_hour.length; i++) {
             if (check_hour[i].isChecked())
             {
@@ -236,6 +260,8 @@ public class ManageParkingActivity extends AppCompatActivity implements AdapterV
                 hour_new+="0";
             }
         }
+
+        //for a selected day, copy the information into buffer
         if(day_selected.equals("0"))
         {
             me_seller.available_date_1 = hour_selected;
@@ -248,9 +274,10 @@ public class ManageParkingActivity extends AppCompatActivity implements AdapterV
             me_seller.available_date_3 = hour_selected;
             hour_new = "000000000000000000000000"+"000000000000000000000000"+hour_new;
         }
+        //concat three days together
         String avail_date = me_seller.available_date_1.concat(me_seller.available_date_2).concat(me_seller.available_date_3);
         Log.d("Debug","Avail hour: "+avail_date);
-        BigInteger amountWei = new BigInteger("10000000000000000").multiply(BigInteger.valueOf(checked_no));
+        //send request to the contract
         if(checked_no!=0)
         {
 
@@ -263,6 +290,7 @@ public class ManageParkingActivity extends AppCompatActivity implements AdapterV
                 e.printStackTrace();
             }
 
+            //when getting a receipt, notice the user
             if(!transferreceipt.getTransactionHash().isEmpty()){
 
 

@@ -47,6 +47,7 @@ import static com.example.aurora.myweb3j.MainActivity.contract;
 import static com.example.aurora.myweb3j.RegisterActivity.ADDRESS;
 import static com.example.aurora.myweb3j.RegisterActivity.CREDENTIALS;
 
+//create a new order
 public class NewOrderActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener,CompoundButton.OnCheckedChangeListener {
     private Seller seller_selected= new Seller();
     private Spinner spin_day;
@@ -74,6 +75,7 @@ public class NewOrderActivity extends AppCompatActivity implements AdapterView.O
         mData = new ArrayList<Day>();
         bindViews();
 
+        //display seller's information
         TextView textName = (TextView) findViewById(R.id.seller_select_name);
         textName.setText(seller_selected.name);
         TextView textPhone = (TextView) findViewById(R.id.seller_select_phone);
@@ -86,6 +88,7 @@ public class NewOrderActivity extends AppCompatActivity implements AdapterView.O
 
         hour_buffer= seller_selected.available_date_1.getBytes();
 
+        //set the state of each checkbox
         for(int i = 0; i<check_hour.length; i++) {
             String strcheckID = "checkbox" + i;
             checkbox_id[i] = getResources().getIdentifier(strcheckID,"id","com.example.aurora.myweb3j");
@@ -110,8 +113,10 @@ public class NewOrderActivity extends AppCompatActivity implements AdapterView.O
             }
         });
     }
+    //bind the spinner with days
     private void bindViews() {
         spin_day = (Spinner) findViewById(R.id.spin_day);
+        //set the day format
         DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy");
         Calendar today = Calendar.getInstance();
         String date_1 = df.format(today.getTime());
@@ -123,6 +128,7 @@ public class NewOrderActivity extends AppCompatActivity implements AdapterView.O
         mData.add(new Day(R.drawable.day,date_2));
         mData.add(new Day(R.drawable.day,date_3));
 
+        //bind the day with the spinner
         myAdadpter = new MyAdapter<Day>(mData,R.layout.item_spin_day) {
             @Override
             public void bindView(ViewHolder holder, Day obj) {
@@ -135,11 +141,13 @@ public class NewOrderActivity extends AppCompatActivity implements AdapterView.O
 
     }
 
+    //when the hour is selected
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch (parent.getId()){
             case R.id.spin_day:
                 day_selected = ""+position;
+                //set the checked hours in the selected day
                 if(position==0)
                 {
                     hour_buffer= seller_selected.available_date_1.getBytes();
@@ -155,6 +163,7 @@ public class NewOrderActivity extends AppCompatActivity implements AdapterView.O
                         }
                     }
                 }
+                //if the second day is selected
                 else if(position==1)
                 {
                     hour_buffer= seller_selected.available_date_2.getBytes();
@@ -170,6 +179,7 @@ public class NewOrderActivity extends AppCompatActivity implements AdapterView.O
                         }
                     }
                 }
+                //if the third day is selected
                 else if(position==2)
                 {
                     hour_buffer= seller_selected.available_date_3.getBytes();
@@ -194,11 +204,13 @@ public class NewOrderActivity extends AppCompatActivity implements AdapterView.O
 
     }
 
+    //when the "book" button is selected
     @Override
     public void onClick(View v) {
         int checked_no = 0;
         hour_selected = "";
         hour_new = "";
+        //count the selected hours in a day
         for(int i = 0; i<check_hour.length; i++) {
             if (check_hour[i].isChecked())
             {
@@ -230,6 +242,7 @@ public class NewOrderActivity extends AppCompatActivity implements AdapterView.O
         Log.d("Debug","Avail hour: "+avail_date);
         Log.d("Debug","No: "+checked_no);
 
+        //calculate the parking fee and send it to the contract
         BigInteger amountWei = new BigInteger("10000000000000000").multiply(BigInteger.valueOf(checked_no));
         if(checked_no!=0)
         {
@@ -250,6 +263,7 @@ public class NewOrderActivity extends AppCompatActivity implements AdapterView.O
             }
 
             System.out.println("Transfer: " + transferreceipt.getTransactionHash());
+            //when a receipt received
             if(!transferreceipt.getTransactionHash().isEmpty()){
 
 
@@ -270,6 +284,7 @@ public class NewOrderActivity extends AppCompatActivity implements AdapterView.O
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
     }
+    //set a customised toast
     public void midToast(String str, int showTime)
     {
         Toast toast = Toast.makeText(getApplicationContext(), str, showTime);
@@ -285,17 +300,13 @@ public class NewOrderActivity extends AppCompatActivity implements AdapterView.O
         toast.show();
     }
 
-    /**
-     * Ether transfer tests using methods.
-     * Most complex transfer mechanism, but offers the highest flexibility.
-     */
+    //sign transaction and wait for receipt
     public void testCreateSignAndSendTransaction(BigInteger amountWei) throws Exception {
         String from = ADDRESS;
         Credentials credentials = CREDENTIALS;
         BigInteger nonce = MainActivity.getNonce(from);
-//      String to = Web3jConstants.CONTRACT_ADDRESS;
 
-        // funds can be transferred out of the account
+        //create raw transaction
         BigInteger txFees = Web3jConstants.GAS_LIMIT_ETHER_TX.multiply(Web3jConstants.GAS_PRICE);
         RawTransaction txRaw = RawTransaction
                 .createEtherTransaction(
@@ -305,20 +316,18 @@ public class NewOrderActivity extends AppCompatActivity implements AdapterView.O
                         Web3jConstants.CONTRACT_ADDRESS,
                         amountWei);
 
-        // sign raw transaction using the sender's credentials
+        // sign the raw transaction
         byte[] txSignedBytes = TransactionEncoder.signMessage(txRaw, credentials);
         String txSigned = Numeric.toHexString(txSignedBytes);
 
-        // send the signed transaction to the ethereum client
+        // send the signed transaction
         EthSendTransaction ethSendTx = LoginActivity.web3j
                 .ethSendRawTransaction(txSigned)
                 .sendAsync()
                 .get();
 
-        //Response.Error error = ethSendTx.getError();
         String txHash = ethSendTx.getTransactionHash();
-        //assertNull(error);
-        //assertFalse(txHash.isEmpty());
+
 
         MainActivity.waitForReceipt(txHash);
 

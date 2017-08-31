@@ -32,6 +32,7 @@ import java.util.concurrent.ExecutionException;
 
 import static com.example.aurora.myweb3j.MainActivity.contract;
 
+//manage parking lot for the seller
 public class ManageFragment extends android.support.v4.app.Fragment {
 
     public ManageFragment() {
@@ -40,6 +41,7 @@ public class ManageFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_manage,container,false);
         Button button = (Button) view.findViewById(R.id.button_new_parking);
+        //create or modify the data
         button.setOnClickListener(new View.OnClickListener()
         {
 
@@ -50,6 +52,7 @@ public class ManageFragment extends android.support.v4.app.Fragment {
                 startActivity(intent_newparking);
             }
         });
+        //select the occupied hours
         Button button_manage = (Button) view.findViewById(R.id.button_manage_parking);
         button_manage.setOnClickListener(new View.OnClickListener()
         {

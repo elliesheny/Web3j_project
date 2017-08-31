@@ -17,7 +17,7 @@ import org.web3j.abi.datatypes.Utf8String;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
 import java.util.concurrent.ExecutionException;
-
+//create or modify the parking lot
 public class NewParkingActivity extends AppCompatActivity {
     private Seller seller_new= new Seller();
 
@@ -25,12 +25,14 @@ public class NewParkingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_parking);
+        //when clicking the button
         Button button_update = (Button) findViewById(R.id.new_parking);
         button_update.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
+                //get user information
                 EditText edit_name = (EditText) findViewById(R.id.name);
                 seller_new.name = edit_name.getText().toString();
                 EditText edit_phone = (EditText) findViewById(R.id.phone);
@@ -39,6 +41,8 @@ public class NewParkingActivity extends AppCompatActivity {
                 seller_new.post_code = edit_post_code.getText().toString();
                 EditText edit_address = (EditText) findViewById(R.id.parking_address);
                 seller_new.parking_add = edit_address.getText().toString();
+
+                //send the update request to the contract
                 TransactionReceipt transferreceipt = null;
                 try {
                     transferreceipt = MainActivity.contract.newParking(new Utf8String(seller_new.name),new Utf8String(seller_new.phone),new Utf8String(seller_new.post_code),new Utf8String(seller_new.parking_add)).get();
@@ -62,6 +66,8 @@ public class NewParkingActivity extends AppCompatActivity {
         });
 
     }
+
+    //personalised toast
     public void midToast(String str, int showTime)
     {
         Toast toast = Toast.makeText(getApplicationContext(), str, showTime);

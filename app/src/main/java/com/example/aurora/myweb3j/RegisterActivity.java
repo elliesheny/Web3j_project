@@ -29,7 +29,7 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.util.concurrent.ExecutionException;
-
+//user registration
 public class RegisterActivity extends AppCompatActivity {
     static final String ERROR = "Error";
     ManageOrder contract = null;
@@ -43,7 +43,6 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         // create new private/public key pair
         final ECKeyPair[] keyPair = {null};
-        // Code here executes on main thread after user presses button
         try {
             keyPair[0] = Keys.createEcKeyPair();
         } catch (InvalidAlgorithmParameterException e) {
@@ -56,6 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
             Log.e(ERROR,"No Such Provider Exception");
         }
 
+        //save the fey pair to the class for further use
         BigInteger publicKey = keyPair[0].getPublicKey();
         Alice.PUBLIC_KEY = Numeric.toHexStringWithPrefix(publicKey);
 
@@ -66,13 +66,16 @@ public class RegisterActivity extends AppCompatActivity {
         saveFile(Alice.PRIVATE_KEY, "private_key.pem");
         KEY_PAIR = new ECKeyPair(Numeric.toBigInt(Alice.PRIVATE_KEY), Numeric.toBigInt(Alice.PUBLIC_KEY));
 
+        //generate the credantionals and address
         CREDENTIALS = Credentials.create(KEY_PAIR);
         ADDRESS = CREDENTIALS.getAddress();
 
     }
 
+    //when clicking "register" button
     public void onRegister_ok(View view) {
 
+        //get user information
         EditText edit_username = (EditText) findViewById(R.id.edit_username);
         String username = edit_username.getText().toString();
         EditText edit_userphone = (EditText) findViewById(R.id.edit_userphone);
@@ -82,7 +85,9 @@ public class RegisterActivity extends AppCompatActivity {
         final Intent intent_main2 = new Intent(getApplicationContext(), MainActivity.class);
         final Intent intent_register = new Intent(getApplicationContext(), RegisterActivity.class);
 
+        //check if the key pair exists in the divice
         if((fileExistance("public_key.pem"))&&(fileExistance("private_key.pem"))){
+            //transfer money from the wallet to the user account
             BigInteger amountWei = new BigInteger("500000000000000000");
             try {
                 String txHash = MainActivity.transferWei(Web3jUtils.getCoinbase(), ADDRESS, amountWei);
@@ -95,7 +100,7 @@ public class RegisterActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-
+            //send the register request to the contract
             TransactionReceipt result = null;
             try {
                 result = contract.newBuyer(new Utf8String(username),new Utf8String(userphone)).get();
@@ -117,9 +122,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    /**
-     * Save data to new file
-     **/
+    //save the data into internal storage
     public void saveFile(String message, String filename) {
         FileOutputStream outputStream;
         try {
@@ -131,6 +134,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+    //load the contract using user credential
     private ManageOrder loadContract() throws Exception {
         System.out.println("// Deploy contract");
 
@@ -139,9 +143,10 @@ public class RegisterActivity extends AppCompatActivity {
 
         String contractAddress = contract.getContractAddress();
         System.out.println("Contract address: " + contractAddress);
-        //System.out.println("Contract address balance (initial): " + Web3jUtils.getBalanceWei(MainedActivity.web3j, contractAddress));
         return contract;
     }
+
+    //chekc if the file exists
     public boolean fileExistance(String fname){
         File file = getBaseContext().getFileStreamPath(fname);
         return file.exists();

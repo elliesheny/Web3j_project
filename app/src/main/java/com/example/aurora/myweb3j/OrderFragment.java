@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import static com.example.aurora.myweb3j.MainActivity.order_string;
-
+//view order history
 public class OrderFragment extends android.support.v4.app.Fragment {
 
     public OrderFragment() {
@@ -38,17 +38,18 @@ public class OrderFragment extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_order,container,false);
+        //create the order classes
         for(int i=0;i<4;i++)
         {
             Orders[i]=new Order();
         }
         int order_number = 0;
 
-        for(int i = 0; i<4; i++){
-            Orders[i]=new Order();}
         Log.d("Return", "");
+        //when there is order history
         while(order_string.indexOf('%')>0){
 
+            //decode the order string and save them to the classes
             String temp = order_string.substring(0, order_string.indexOf('%'));
             Log.d("Order "+order_number, temp);
 
@@ -72,6 +73,7 @@ public class OrderFragment extends android.support.v4.app.Fragment {
 
         }
         final int order_number1 = order_number;
+        //display the orders
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -79,6 +81,7 @@ public class OrderFragment extends android.support.v4.app.Fragment {
 
                 List<Map<String, Object>> listItems = new ArrayList<Map<String, Object>>();
 
+                //set each item
                 for (int i = 0; i < order_number1; i++)
                 {
                     Map<String, Object> listItem = new HashMap<String, Object>();
@@ -87,6 +90,7 @@ public class OrderFragment extends android.support.v4.app.Fragment {
                     listItem.put("order_price", Orders[i].price);
                     listItems.add(listItem);
                 }
+                //set the adapter
                 SimpleAdapter simpleAdapter = new SimpleAdapter(getActivity().getApplicationContext(), listItems,
                 R.layout.list_order,
                 new String[]{"order_date", "header", "order_price"},
@@ -125,6 +129,7 @@ public class OrderFragment extends android.support.v4.app.Fragment {
                     });
 
 //
+        //update the order history
         Button button = (Button) view.findViewById(R.id.button_update_order);
         button.setOnClickListener(new View.OnClickListener()
         {

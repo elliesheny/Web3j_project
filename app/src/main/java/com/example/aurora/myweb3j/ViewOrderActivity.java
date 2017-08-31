@@ -38,6 +38,8 @@ import static com.example.aurora.myweb3j.MainActivity.contract;
 import static com.example.aurora.myweb3j.RegisterActivity.ADDRESS;
 import static com.example.aurora.myweb3j.RegisterActivity.CREDENTIALS;
 
+//view the order details
+
 public class ViewOrderActivity extends AppCompatActivity{
     private Order order_selected= new Order();
     private Context mContext;
@@ -55,9 +57,7 @@ public class ViewOrderActivity extends AppCompatActivity{
         setSupportActionBar(toolbar);
         setSupportActionBar(toolbar);
 
-
-
-        //convert unix epoch timestamp (seconds) to milliseconds
+        //convert the order date from time stamp to real time and date
         long timestamp = Long.parseLong(order_selected.date+"") * 1000L;
 
         TextView textName = (TextView) findViewById(R.id.order_select_date);
@@ -65,6 +65,8 @@ public class ViewOrderActivity extends AppCompatActivity{
         TextView textPhone = (TextView) findViewById(R.id.order_select_price);
         textPhone.setText(order_selected.price+"");
         TextView textAddress = (TextView) findViewById(R.id.order_select_state);
+
+        //convert the state from state to string
         String state = null;
         switch (order_selected.state) {
             case 1:
@@ -95,7 +97,7 @@ public class ViewOrderActivity extends AppCompatActivity{
     }
 
 
-
+    //personalised toast
     public void midToast(String str, int showTime)
     {
         Toast toast = Toast.makeText(getApplicationContext(), str, showTime);
@@ -111,6 +113,7 @@ public class ViewOrderActivity extends AppCompatActivity{
         toast.show();
     }
 
+    //get the date of the timestamp
     private String getDate(long timeStamp){
 
         try{
@@ -123,6 +126,7 @@ public class ViewOrderActivity extends AppCompatActivity{
         }
     }
 
+    //send the abort order request
     public void abort_order(View view) throws Exception {
         BigInteger amountWei = new BigInteger("10000000000000000").multiply(BigInteger.valueOf((long) order_selected.price*20));
 
@@ -146,6 +150,8 @@ public class ViewOrderActivity extends AppCompatActivity{
                 }});
         }
     }
+
+    //send the confirm order request
     public void confirm_order(View view) throws Exception {
 
         TransactionReceipt transferreceipt = contract.confirmOrder(new Uint256(order_selected.id)).get();
@@ -161,13 +167,14 @@ public class ViewOrderActivity extends AppCompatActivity{
                 }});
         }
     }
+
+    //transfer ether to an account and wait for receipt
     public void testCreateSignAndSendTransaction(BigInteger amountWei) throws Exception {
         String from = ADDRESS;
         Credentials credentials = CREDENTIALS;
         BigInteger nonce = MainActivity.getNonce(from);
-//      String to = Web3jConstants.CONTRACT_ADDRESS;
 
-        // funds can be transferred out of the account
+        //create raw transaction
         BigInteger txFees = Web3jConstants.GAS_LIMIT_ETHER_TX.multiply(Web3jConstants.GAS_PRICE);
         RawTransaction txRaw = RawTransaction
                 .createEtherTransaction(
@@ -177,7 +184,7 @@ public class ViewOrderActivity extends AppCompatActivity{
                         Web3jConstants.CONTRACT_ADDRESS,
                         amountWei);
 
-        // sign raw transaction using the sender's credentials
+        //sign transaction
         byte[] txSignedBytes = TransactionEncoder.signMessage(txRaw, credentials);
         String txSigned = Numeric.toHexString(txSignedBytes);
 
@@ -187,10 +194,8 @@ public class ViewOrderActivity extends AppCompatActivity{
                 .sendAsync()
                 .get();
 
-        //Response.Error error = ethSendTx.getError();
         String txHash = ethSendTx.getTransactionHash();
-        //assertNull(error);
-        //assertFalse(txHash.isEmpty());
+
 
         MainActivity.waitForReceipt(txHash);
 

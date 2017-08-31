@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by yuan.
  */
-
+//define the seller structure
 public class Seller implements Serializable {
 
     public int id;//  int(11) AI PK
@@ -29,15 +29,6 @@ public class Seller implements Serializable {
         parking_add = null;
 
     }
-//    public void setseller(int _id, String _name, String _phone, String _post_code, String _parking_add, String _1, String _2, String _3){
-//        this.id = _id;
-//        this.name= _name;
-//        this.available_date_1= _1;
-//        this.available_date_2= _2;
-//        this.available_date_3= _3;
-//        this.phone =_phone;
-//        this.post_code = _post_code;
-//        parking_add = _parking_add;
-//    }
+
 
 }

@@ -25,6 +25,7 @@ import static com.example.aurora.myweb3j.LoginActivity.web3j;
 import static com.example.aurora.myweb3j.RegisterActivity.ADDRESS;
 import static com.example.aurora.myweb3j.RegisterActivity.CREDENTIALS;
 
+//main acticity of the application, binds with four fragments
 public class MainActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener,
         ViewPager.OnPageChangeListener {
 
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
 
     private MyFragmentPagerAdapter mAdapter;
 
-    //几个代表页面的常量
+    //constants that represents the page
     public static final int PAGE_ONE = 0;
     public static final int PAGE_TWO = 1;
     public static final int PAGE_THREE = 2;
@@ -52,24 +53,27 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //set the fragment adapter
         mAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
+        //bind the pages to the fragments
         bindViews();
+        //set the first tab to be opened as default
         rb_channel.setChecked(true);
-        //Intent intent =this.getIntent();
-        //user_me=(user)intent.getSerializableExtra("user_me");
+        //send some ether to the account
         BigInteger amountWei = new BigInteger("500000000000000000");
         try {
             String txHash = MainActivity.transferWei(Web3jUtils.getCoinbase(), ADDRESS, amountWei);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        //load the contract that is deployed to the ethereum blockchain previously
         try {
             ManageOrder manageOrder = loadContract();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+        //get the recent order history
         TransactionReceipt result_receipt = null;
         Utf8String result_order = null;
         try {
@@ -86,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
 
     }
 
+    //bind the radio button and the pages
     private void bindViews() {
         txt_topbar = (TextView) findViewById(R.id.txt_topbar);
         rg_tab_bar = (RadioGroup) findViewById(R.id.rg_tab_bar);
@@ -101,9 +106,11 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         vpager.addOnPageChangeListener(this);
     }
 
+    //when one radioitem is selected
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId) {
+            //set the current item as the corresponding page
             case R.id.rb_channel:
                 vpager.setCurrentItem(PAGE_ONE);
                 break;
@@ -128,6 +135,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     public void onPageSelected(int position) {
     }
 
+    //when swipping the page, the tab switches
     @Override
     public void onPageScrollStateChanged(int state) {
         //three states: 0:nothing done 1:swiping 2:finished swiping
@@ -150,6 +158,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     }
 
 
+    //load the contract using the user's credentials
     private ManageOrder loadContract() throws Exception {
         System.out.println("// Deploy contract");
 
@@ -161,6 +170,8 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         //System.out.println("Contract address balance (initial): " + Web3jUtils.getBalanceWei(MainedActivity.web3j, contractAddress));
         return contract;
     }
+
+    //transfer some ehter to the account for further use
     static String transferWei(String from, String to, BigInteger amountWei) throws Exception {
         BigInteger nonce = getNonce(from);
         Transaction transaction = Transaction.createEtherTransaction(
@@ -174,9 +185,13 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
 
         return txHash;
     }
+
+    //get the nonce of the transaction
     static BigInteger getNonce(String address) throws Exception {
         return Web3jUtils.getNonce(web3j, address);
     }
+
+    //wait for receipt of the transaction
     static TransactionReceipt waitForReceipt(String transactionHash) throws Exception {
         return Web3jUtils.waitForReceipt(web3j, transactionHash);
     }

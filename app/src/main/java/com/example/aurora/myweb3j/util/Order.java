@@ -6,6 +6,7 @@ import java.io.Serializable;
  * Created by yuan.
  */
 
+// define the order structure
 public class Order implements Serializable {
     public int id;
     public int parking_no;

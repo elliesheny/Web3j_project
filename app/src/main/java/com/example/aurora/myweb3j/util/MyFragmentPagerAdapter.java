@@ -14,6 +14,7 @@ import com.example.aurora.myweb3j.ManageFragment;
 /**
  * Created by yuan.
  */
+//set the fragment layout
 public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
     private final int PAGER_COUNT = 4;
@@ -48,6 +49,7 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
         super.destroyItem(container, position, object);
     }
 
+    //bind the page to the fragment
     @Override
     public Fragment getItem(int position) {
         Fragment fragment = null;

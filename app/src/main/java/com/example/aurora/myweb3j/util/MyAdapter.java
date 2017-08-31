@@ -11,10 +11,12 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+//the adapter of the list item
+//define the structure of the personalised list item
 public abstract class MyAdapter<T> extends BaseAdapter {
 
     private ArrayList<T> mData;
-    private int mLayoutRes;           //布局id
+    private int mLayoutRes;           //layout id
 
 
     public MyAdapter() {
@@ -50,7 +52,7 @@ public abstract class MyAdapter<T> extends BaseAdapter {
 
     public abstract void bindView(ViewHolder holder, T obj);
 
-    //添加一个元素
+    //add a data
     public void add(T data) {
         if (mData == null) {
             mData = new ArrayList<>();
@@ -92,12 +94,12 @@ public abstract class MyAdapter<T> extends BaseAdapter {
 
     public static class ViewHolder {
 
-        private SparseArray<View> mViews;   //存储ListView 的 item中的View
-        private View item;                  //存放convertView
-        private int position;               //游标
-        private Context context;            //Context上下文
+        private SparseArray<View> mViews;   //store the view in the item of the ListView
+        private View item;                  //strore convertView
+        private int position;               //position
+        private Context context;            //Context
 
-        //构造方法，完成相关初始化
+        //construct the fucntion, finish to initiate the class
         private ViewHolder(Context context, ViewGroup parent, int layoutRes) {
             mViews = new SparseArray<>();
             this.context = context;
@@ -106,7 +108,7 @@ public abstract class MyAdapter<T> extends BaseAdapter {
             item = convertView;
         }
 
-        //绑定ViewHolder与item
+        //bind the ViewHolder to item
         public static ViewHolder bind(Context context, View convertView, ViewGroup parent,
                                       int layoutRes, int position) {
             ViewHolder holder;
@@ -132,21 +134,21 @@ public abstract class MyAdapter<T> extends BaseAdapter {
 
 
         /**
-         * 获取当前条目
+         * get the current item
          */
         public View getItemView() {
             return item;
         }
 
         /**
-         * 获取条目位置
+         * get the item position
          */
         public int getItemPosition() {
             return position;
         }
 
         /**
-         * 设置文字
+         * set the text
          */
         public ViewHolder setText(int id, CharSequence text) {
             View view = getView(id);
@@ -157,7 +159,7 @@ public abstract class MyAdapter<T> extends BaseAdapter {
         }
 
         /**
-         * 设置图片
+         * set the image resource
          */
         public ViewHolder setImageResource(int id, int drawableRes) {
             View view = getView(id);
@@ -171,7 +173,7 @@ public abstract class MyAdapter<T> extends BaseAdapter {
 
 
         /**
-         * 设置点击监听
+         * set the click listener
          */
         public ViewHolder setOnClickListener(int id, View.OnClickListener listener) {
             getView(id).setOnClickListener(listener);
@@ -179,7 +181,7 @@ public abstract class MyAdapter<T> extends BaseAdapter {
         }
 
         /**
-         * 设置可见
+         * set as visible
          */
         public ViewHolder setVisibility(int id, int visible) {
             getView(id).setVisibility(visible);
@@ -187,14 +189,13 @@ public abstract class MyAdapter<T> extends BaseAdapter {
         }
 
         /**
-         * 设置标签
+         * set the tag
          */
         public ViewHolder setTag(int id, Object obj) {
             getView(id).setTag(obj);
             return this;
         }
 
-        //其他方法可自行扩展
 
     }
 

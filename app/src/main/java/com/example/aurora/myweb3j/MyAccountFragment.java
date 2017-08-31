@@ -24,7 +24,7 @@ import java.util.concurrent.ExecutionException;
 
 import static com.example.aurora.myweb3j.RegisterActivity.ADDRESS;
 
-
+//my account tab
 public class MyAccountFragment extends android.support.v4.app.Fragment {
     public MyAccountFragment() {
     }
@@ -38,8 +38,7 @@ public class MyAccountFragment extends android.support.v4.app.Fragment {
         edit_useradd.setEnabled(false);
 
 
-//        EditText edit_userpwd = (EditText) view.findViewById(R.id.edit_userpwd);
-//        edit_userpwd.setText(MainedActivity.user_me.password+"");
+        //get the inforamtion of user's account
         Utf8String result_buyer = null;
         try {
             result_buyer = MainActivity.contract.queryBuyer().get();
@@ -49,6 +48,7 @@ public class MyAccountFragment extends android.support.v4.app.Fragment {
             e.printStackTrace();
         }
         Log.d("Buyer: ", result_buyer+"");
+        //decode the buyer's information and save them
         String string_buyer = result_buyer+"";
         String buyer_name = (string_buyer.substring(0, string_buyer.indexOf('*')));
         string_buyer=string_buyer.substring(string_buyer.indexOf('*')+1);
@@ -71,9 +71,11 @@ public class MyAccountFragment extends android.support.v4.app.Fragment {
         }
         Log.d("Balance:", balance_in_ether+"");
 
+        //display balance
         TextView edit_userbalance = (TextView) view.findViewById(R.id.text_userbalance);
         edit_userbalance.setText(balance_in_ether+"");
 
+        //update the information
         Button button_update = (Button) view.findViewById(R.id.button_update);
         button_update.setOnClickListener(new View.OnClickListener()
         {
@@ -83,6 +85,7 @@ public class MyAccountFragment extends android.support.v4.app.Fragment {
 
                 BigDecimal balance_in_ether = null;
 
+                //update the balance
                 try {
                     balance_in_ether = getBalanceEther(LoginActivity.web3j, ADDRESS);
                 } catch (InterruptedException e) {
@@ -98,6 +101,7 @@ public class MyAccountFragment extends android.support.v4.app.Fragment {
 
                 EditText edit_userphone = (EditText) view.findViewById(R.id.edit_userphone);
                 String buyer_phone = edit_userphone.getText().toString();
+                //send the request to the contract to update user information
                 TransactionReceipt transactionReceipt = null;
                 try {
                     transactionReceipt = MainActivity.contract.newBuyer(new Utf8String(buyer_name),new Utf8String(buyer_phone)).get();
@@ -106,6 +110,7 @@ public class MyAccountFragment extends android.support.v4.app.Fragment {
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
+                //when getting a receipt, notice the user
                 if(!transactionReceipt.getTransactionHash().isEmpty()){
 
 
@@ -119,6 +124,7 @@ public class MyAccountFragment extends android.support.v4.app.Fragment {
             }
         });
 
+        //charge some ether on user's account
         Button button_charge = (Button) view.findViewById(R.id.button_charge);
         button_charge.setOnClickListener(new View.OnClickListener()
         {
@@ -136,9 +142,12 @@ public class MyAccountFragment extends android.support.v4.app.Fragment {
         });
         return view;
     }
+
+    //get balance in ether uint
     public static BigDecimal getBalanceEther(Web3j web3j, String address) throws InterruptedException, ExecutionException {
         return weiToEther(Web3jUtils.getBalanceWei(web3j, address));
     }
+    //transfer wei to ether
     public static BigDecimal weiToEther(BigInteger wei) {
         return Convert.fromWei(wei.toString(), Convert.Unit.ETHER);
     }
