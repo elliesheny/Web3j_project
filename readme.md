@@ -1,4 +1,4 @@
-Micropayment Android Application Based on Blockchain Smart Contracts
+# Micropayment Android Application Based on Blockchain Smart Contracts
 
 A pure decentralised application built on Ethereum blockchain. 
 
@@ -6,16 +6,16 @@ This application is designed to increase the utilisation of private parking area
 
 In the application, sellers rent out their parking lots while buyers book the parking lots. 
 
-1. Seller: A user who owns a parking lot can create one account in the application, and rent out his parking area for hours. If the parking lot is used on his own, he will mark the time period that he needs as being occupied. 
-2. Buyer: When a user would like to rent this parking area, he can select the time slot he wishes to stop and reserve the space. After using the parking lot, the user will confirm the order and pay the parking fee to the parking lot owner. 
+1. **Seller**: A user who owns a parking lot can create one account in the application, and rent out his parking area for hours. If the parking lot is used on his own, he will mark the time period that he needs as being occupied. 
+2. **Buyer**: When a user would like to rent this parking area, he can select the time slot he wishes to stop and reserve the space. After using the parking lot, the user will confirm the order and pay the parking fee to the parking lot owner. 
 
 An Interface overview shows as follows:
 
-
+![Interface Overview](Interface_overview.png)
 
 ---
 
-Smart Contract
+## Smart Contract
 
 The smart contract is written in Solidity. The source code can be found here.
 
@@ -25,8 +25,8 @@ applications. In this micropayment system, the smart contract is deployed on the
 
 
 
-- Smart contract: The smart contract acts as a server that controls all behaviours and stores all relevant data in its storage. When mobile users send a request to the smart contract, some relevant pre-defined functions are called and executed. 
-- Mining nodes: The mining nodes are responsible for computing the functions and package the activities. The user will then get a response from the contract if his identity is verified. 
+- **Smart contract**: The smart contract acts as a server that controls all behaviours and stores all relevant data in its storage. When mobile users send a request to the smart contract, some relevant pre-defined functions are called and executed. 
+- **Mining nodes**: The mining nodes are responsible for computing the functions and package the activities. The user will then get a response from the contract if his identity is verified. 
 - User Example: If the payment is based on a service such as online shopping, the sender of a payment may call functions to deposit money to the smart contract, and the receiver can get the amount of money from the contract when the sender confirms to receive the goods. In this case, the smart contract acts as a real “server” that is responsible for both communication and database management functions.
 
 How to Use
