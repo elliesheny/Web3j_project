@@ -46,7 +46,9 @@ The diagram in the figure below clarifies how TestRPCand Truffle work when devel
 4. Run truffle init to initiate a new smart contract, and create a new `.sol` file in `/contract`.  
 5. Paste the contract code to this `.sol` file, and modify the migration files (please refer to the truffle documents [here](http://truffle.readthedocs.io/en/beta/)).
 6. Run `truffle compile` and `truffle migrate` after start the testrpc network. 
-7. Use `truffle console` to interact with the smart contract. 
+7. Use `truffle console` to interact with the smart contract. Get the contract address and abi file from this console. For example, to get the address, type `ManageOrder.deployed().then(function(instance){return instance.address;}).then(function(result){console.log(JSON.stringify(result));})`
+8. Modify the IP address and contract address [in this file](https://github.com/aurorasy/Web3j_project/blob/master/app/src/main/java/com/example/aurora/myweb3j/util/Web3jConstants.java). 
+9. Start the Android application and enjoy the demo.
 
 ## Contact Detail
 
