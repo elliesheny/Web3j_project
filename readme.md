@@ -19,9 +19,7 @@ An Interface overview shows as follows:
 
 The smart contract is written in Solidity. The source code can be found here.
 
-The whole system design is illustracted in the figure below. Ethereum, a programmable blockchain, is a suitable platform to run decentralised
-
-applications. In this micropayment system, the smart contract is deployed on the Ethereum blockchain. The contract consists of functions and rules and is deployed before this system is published. 
+The whole system design is illustracted in the figure below. Ethereum, a programmable blockchain, is a suitable platform to run decentralised applications. In this micropayment system, the smart contract is deployed on the Ethereum blockchain. The contract consists of functions and rules and is deployed before this system is published. 
 
 ![System Design](system_design.png)
 
