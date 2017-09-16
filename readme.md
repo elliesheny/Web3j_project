@@ -1,8 +1,8 @@
 # Micropayment Android Application Based on Blockchain Smart Contracts
 
-A pure decentralised application built on Ethereum blockchain. 
+A pure decentralised application built on Ethereum blockchain. As the traditional structure of the servers exposed a large number of short comings in terms of computer capacity and security issues, there is a increasing demand for servers with higher integrity and availability. Due the nature of the blockchain where all running nodes work together to maintain and package the tranactions for the "server", the blockchain smart contract  technologies are better choices to realise a stronger server.
 
-This application is designed to increase the utilisation of private parking areas. It provides parking lot owners and those who are looking for parking spaces a platform to exchange resources. 
+In this project, we put out a use case to evaluate the proposed work — **Parking Area Rental App**. This application is designed to increase the utilisation of private parking areas. It provides parking lot owners and those who are looking for parking spaces a platform to exchange resources. 
 
 In the application, sellers rent out their parking lots while buyers book the parking lots. 
 
@@ -17,7 +17,7 @@ An Interface overview shows as follows:
 
 ## Smart Contract
 
-The smart contract is written in Solidity. The source code can be found here.
+The smart contract is written in Solidity. The source code can be found [here](https://github.com/aurorasy/Web3j_project/blob/master/app/src/main/java/com/example/aurora/myweb3j/contract/ManageOrder.sol).
 
 The whole system design is illustracted in the figure below. Ethereum, a programmable blockchain, is a suitable platform to run decentralised applications. In this micropayment system, the smart contract is deployed on the Ethereum blockchain. The contract consists of functions and rules and is deployed before this system is published. 
 
@@ -53,3 +53,5 @@ The diagram in the figure below clarifies how TestRPCand Truffle work when devel
 ## Contact Detail
 
 Yuan Shen, aurorasy@126.com, aurora.shenyuan@gmail.com
+
+Welcome all discussions about Blockchain and Smart Contract!
