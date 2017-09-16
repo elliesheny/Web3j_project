@@ -54,4 +54,4 @@ The diagram in the figure below clarifies how TestRPCand Truffle work when devel
 
 Yuan Shen, aurorasy@126.com, aurora.shenyuan@gmail.com
 
-Welcome all discussions about Blockchain and Smart Contract!
+Welcome all discussions on Blockchain and Smart Contract!
